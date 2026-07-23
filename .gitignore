@@ -1,19 +1,11 @@
-# >>> buildflow-managed (.gitignore) >>>
-# Auto-managed by buildflow. Edit outside these markers; this block is regenerated on `buildflow --fix`.
-
-## Secrets and environment
+# Secrets and environment
 .env
 .env.local
 .env.*.local
 *.pem
 *.key
 
-## Databases
-*.db
-*.db-shm
-*.db-wal
-
-## Operating systems
+# Operating systems
 .DS_Store
 ._*
 .Spotlight-V100
@@ -21,17 +13,39 @@
 Thumbs.db
 ehthumbs.db
 
-## Editors and ides
+# Editors and ides
 .idea/
 .vscode/
 *.swp
 *.swo
 *~
 
-## Logs and temporaries
+# Logs and temporaries
 *.log
 *.tmp
 *.temp
+
+# Go
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+go.work
+go.work.sum
+
+# Coverage
+coverage.out
+
+# >>> buildflow-managed (.gitignore) >>>
+# Auto-managed by buildflow. Edit outside these markers; this block is regenerated on `buildflow --fix`.
+
+## Databases
+*.db
+*.db-shm
+*.db-wal
 
 ## Buildflow artifacts
 audit-log.*
@@ -43,14 +57,11 @@ workflow-audit-log.*
 reports/
 
 ## Go
-*.exe
-*.dll
-*.so
-*.dylib
-*.test
-*.out
-vendor/
-go.work
-go.work.sum
 /go-ndjson
+
+## Nix
+result
+result-*
+.envrc
+.direnv/
 # <<< buildflow-managed (.gitignore) <<<

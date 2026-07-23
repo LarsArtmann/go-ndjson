@@ -11,10 +11,24 @@ Thanks for your interest in contributing!
 
 ## Development Setup
 
-Run the following commands to set up your development environment:
+The project uses [Nix flakes](https://nixos.wiki/wiki/Flakes) for build automation.
 
-    go test ./... -race
-    golangci-lint run ./...
+```bash
+nix develop                    # enter devShell (sets GOEXPERIMENT=jsonv2)
+nix run .#test                 # run tests
+nix run .#test-race            # run tests with race detector
+nix run .#lint                 # run golangci-lint
+nix run .#vet                  # run go vet
+nix flake check                # validate flake + formatting
+```
+
+If running raw `go` commands outside the flake, you must set the experiment flag:
+
+```bash
+export GOEXPERIMENT=jsonv2     # required for encoding/json/v2
+go test ./... -race
+golangci-lint run ./...
+```
 
 ## Reporting Issues
 
