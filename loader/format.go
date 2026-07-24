@@ -3,7 +3,7 @@ package loader
 import (
 	"bufio"
 	"bytes"
-	"encoding/json/v2"
+	"encoding/json"
 	"errors"
 	"fmt"
 )
