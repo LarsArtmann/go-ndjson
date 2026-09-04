@@ -39,15 +39,6 @@
           inherit (pkgs) lib;
           goPkg = pkgs.go_1_26;
 
-          goFiles = lib.fileset.fileFilter (file: file.hasExt "go") ./.;
-          src = lib.fileset.toSource {
-            root = ./.;
-            fileset = lib.fileset.unions [
-              ./go.mod
-              goFiles
-            ];
-          };
-
           mkApp =
             name: runtimeInputs: text:
             let
