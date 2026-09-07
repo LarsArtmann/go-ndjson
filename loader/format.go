@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json/v2"
+	"encoding/json/jsontext"
 	"errors"
 	"fmt"
 )
@@ -13,6 +14,11 @@ const maxScanBytes = 1 << 20
 
 // ErrNoContent is returned when no non-blank content is found for detection.
 var ErrNoContent = errors.New("no content found for format detection")
+
+// ErrUnknownFormat is returned when the first non-blank line cannot be
+// classified as either format: it is not a JSON object, or it is an object
+// carrying neither the "version" nor the "event_type" key.
+var ErrUnknownFormat = errors.New("cannot detect format")
 
 // Format identifies the serialization format of an audit log file.
 type Format int
@@ -43,9 +49,16 @@ func (f Format) String() string {
 // Detect inspects raw bytes to determine whether they contain a JSON report
 // or NDJSON events by checking the first non-blank line.
 //
-// A JSON report is identified by a top-level "version" key; an NDJSON event
-// by an "event_type" key. Multi-line JSON (pretty-printed) that cannot be
-// parsed as a single-line object defaults to FormatJSON.
+// Key presence, not key value, decides: any top-level "version" key marks a
+// JSON report, any "event_type" key marks NDJSON events, so `{"version":""}`
+// is a report. When both keys are present, "event_type" wins, because events
+// may carry their own "version" field while reports never carry "event_type".
+//
+// An unparseable first line is classified as a multi-line (pretty-printed)
+// JSON report only if it starts with "{". Anything else — text, arrays,
+// scalars, or an object with neither signature key — fails with an error
+// wrapping [ErrUnknownFormat]. Only the first non-blank line is probed; later
+// lines are never examined.
 func Detect(data []byte) (Format, error) {
 	scanner := bufio.NewScanner(bytes.NewReader(data))
 	scanner.Buffer(make([]byte, 0, maxScanBytes), maxScanBytes)
@@ -53,7 +66,7 @@ func Detect(data []byte) (Format, error) {
 	for scanner.Scan() {
 		line := bytes.TrimSpace(scanner.Bytes())
 		if len(line) > 0 {
-			return detectLineFormat(line), nil
+			return detectLineFormat(line)
 		}
 	}
 
@@ -66,26 +79,37 @@ func Detect(data []byte) (Format, error) {
 }
 
 // detectLineFormat inspects a single JSON line for Report vs Event keys.
-func detectLineFormat(line []byte) Format {
-	var probe struct {
-		Version   string `json:"version"`
-		EventType string `json:"event_type"`
-	}
+func detectLineFormat(line []byte) (Format, error) {
+	var fields map[string]jsontext.Value
 
-	err := json.Unmarshal(line, &probe)
+	err := json.Unmarshal(line, &fields)
 	if err != nil {
-		// Not valid single-line JSON — probably a multi-line JSON Report.
-		return FormatJSON
+		if bytes.HasPrefix(line, []byte("{")) {
+			// Incomplete first line of a multi-line (pretty-printed) JSON report.
+			return FormatJSON, nil
+		}
+
+		return FormatAuto, fmt.Errorf("%w: first line is not a JSON object: %q", ErrUnknownFormat, preview(line))
 	}
 
-	if probe.Version != "" {
-		return FormatJSON
+	if _, ok := fields["event_type"]; ok {
+		return FormatNDJSON, nil
 	}
 
-	if probe.EventType != "" {
-		return FormatNDJSON
+	if _, ok := fields["version"]; ok {
+		return FormatJSON, nil
 	}
 
-	// Default: single-line object without version or event_type.
-	return FormatNDJSON
+	return FormatAuto, fmt.Errorf("%w: first line has neither an %q nor a %q key: %q", ErrUnknownFormat, "event_type", "version", preview(line))
+}
+
+// preview returns data truncated to a bounded length for inclusion in error
+// messages, so a hostile or oversized line cannot bloat the error.
+func preview(data []byte) string {
+	const maxPreviewBytes = 64
+	if len(data) <= maxPreviewBytes {
+		return string(data)
+	}
+
+	return string(data[:maxPreviewBytes]) + "..."
 }
