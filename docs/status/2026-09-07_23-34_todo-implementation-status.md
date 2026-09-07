@@ -61,19 +61,19 @@ All carried from yesterday's report (section f) — untouched this session, none
 - README error-handling philosophy section; 1 MB cap in quick-start prose
 - CHANGELOG compare-links footer
 - AGENTS.md gopls-gotcha revisit when Go 1.27 ships
-- "Compile every README example" as a standing *automated* step (today it was ad-hoc again, by me, again)
+- "Compile every README example" as a standing _automated_ step (today it was ad-hoc again, by me, again)
 - All ROADMAP raw ideas: streaming `iter.Seq2` read, `Write[T]`, `Detect` from `io.Reader`, configurable probe keys, `ReadContext`, Detect+Read combo, configurable `MaxLineBytes`, multi-line detection sampling
 
 ## d) TOTALLY FUCKED UP
 
 Radical honesty. Nothing here blocks development; all of it deserved to be named.
 
-1. **The benchmarks I shipped exposed a ~1 MB-per-call allocation and I shipped them anyway without acting on it.** `scanner.Buffer(make([]byte, 0, maxScanBytes), maxScanBytes)` in both `reader.go:35` and `loader/format.go:64` eagerly allocates the full 1 MB buffer on **every** `Read` and every `Detect` call. My own numbers prove it: BenchmarkDetect reports ~1,051,213 B/op for touching one ~45-byte line; BenchmarkRead reports ~2.85 MB/op. The initial buffer could be 64 KB with the same 1 MB cap (bufio grows as needed). Pre-existing in `reader.go`, but I *measured* it this session and moved on. That is the "report the issue, don't fix it on sight" anti-pattern, committed by me, in the same session where the quality bar says fix on sight.
-2. **`preview()` truncates at byte 64 and can slice a multi-byte UTF-8 rune in half**, producing `\xNN` mojibake in error messages for non-ASCII input. I wrote a "bounded preview" function and never once thought about runes in a *JSON* library whose input is guaranteed to be able to contain any Unicode. Cosmetic, but it is sloppy error-surface work in a library whose selling point is careful error design.
+1. **The benchmarks I shipped exposed a ~1 MB-per-call allocation and I shipped them anyway without acting on it.** `scanner.Buffer(make([]byte, 0, maxScanBytes), maxScanBytes)` in both `reader.go:35` and `loader/format.go:64` eagerly allocates the full 1 MB buffer on **every** `Read` and every `Detect` call. My own numbers prove it: BenchmarkDetect reports ~1,051,213 B/op for touching one ~45-byte line; BenchmarkRead reports ~2.85 MB/op. The initial buffer could be 64 KB with the same 1 MB cap (bufio grows as needed). Pre-existing in `reader.go`, but I _measured_ it this session and moved on. That is the "report the issue, don't fix it on sight" anti-pattern, committed by me, in the same session where the quality bar says fix on sight.
+2. **`preview()` truncates at byte 64 and can slice a multi-byte UTF-8 rune in half**, producing `\xNN` mojibake in error messages for non-ASCII input. I wrote a "bounded preview" function and never once thought about runes in a _JSON_ library whose input is guaranteed to be able to contain any Unicode. Cosmetic, but it is sloppy error-surface work in a library whose selling point is careful error design.
 3. **I hit the exact gotcha AGENTS.md warns about — after reading AGENTS.md in that same session.** Wrote `ndjson.Read(bytes.NewReader(payload), nil)`, got `cannot infer T`, fixed it with the explicit type parameter that the doc line I had read an hour earlier tells you to use. The docs are fine; the reader wasn't reading.
-4. **A breaking library change is sitting in `[Unreleased]` with zero consumer verification.** Yesterday's open question 3 ("does auditlog-core depend on Detect's silent defaults?") was still unanswered, and I answered it by not answering it and shipping the break anyway. Pre-1.0 makes it *legal*; it does not make it *checked*. If a consumer exists and relied on malformed→JSON, this session silently changed their behavior and nothing in this repo would ever tell them.
+4. **A breaking library change is sitting in `[Unreleased]` with zero consumer verification.** Yesterday's open question 3 ("does auditlog-core depend on Detect's silent defaults?") was still unanswered, and I answered it by not answering it and shipping the break anyway. Pre-1.0 makes it _legal_; it does not make it _checked_. If a consumer exists and relied on malformed→JSON, this session silently changed their behavior and nothing in this repo would ever tell them.
 5. **TODO_LIST emptied while 40+ verified leads rot in a timestamped file.** I followed the "delete done items" rule perfectly and skipped the "harvest the leads" half of the discipline. The docs-health skill names this exact entombment as the #1 failure mode — and I reproduced it, knowingly, with a note pointing at it.
-6. **Benchmark results were recorded nowhere.** The TODO said "a parsing library should *track* per-line overhead". Numbers that exist only in a terminal scrollback do not track anything. No baseline file, no benchstat discipline, no CI comparison. Tomorrow's perf regression is invisible.
+6. **Benchmark results were recorded nowhere.** The TODO said "a parsing library should _track_ per-line overhead". Numbers that exist only in a terminal scrollback do not track anything. No baseline file, no benchstat discipline, no CI comparison. Tomorrow's perf regression is invisible.
 7. **I enshrined a guess as contract.** `{"version":"1","version":"2"}` (duplicate keys) lands in the brace-fallback and is classified JSON — because v2 rejects duplicates and the line starts with `{`. My test comment rationalizes it ("the reader reports the real error"), which is defensible, but I pinned an accident with a test instead of making a decision. That is precisely the "untested accident" pattern I spent this session eliminating — now with a test making it permanent.
 8. **Minor but real: README badge added before CI has ever run.** First-time visitors see a "no status" badge. Premature polish presented as done.
 
@@ -98,49 +98,49 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 **Ship & infrastructure**
 
-| #  | Task                                                                                     | Impact | Effort | Category | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| 1  | Push + verify first CI run is green; confirm badge renders                               | High   | S      | Quality  | This report |
-| 2  | Consumer-compat check for breaking `Detect` change, then cut v0.0.2                      | High   | M      | Release  | This report |
-| 3  | Shrink scanner initial buffer 1 MB → 64 KB in `Read` + `Detect`; benchstat verify \*     | High   | S      | Perf     | This report |
-| 4  | Verify pkg.go.dev renders v0.0.2 after tag (proxy propagation)                           | Med    | S      | Release  | Yesterday 6 |
-| 5  | Wire `dprint` into flake (treefmt program or app) or delete it                           | Med    | S      | Cleanup  | Yesterday 3 |
-| 6  | Add govulncheck job to CI (app already exists)                                           | Med    | S      | Quality  | Yesterday 4 |
-| 7  | Add `actionlint` flake app + CI step \*                                                  | Low    | S      | Quality  | This report |
-| 8  | Pin golangci-lint linter set in `.golangci.yml`                                          | Low    | S      | Quality  | Yesterday 8 |
-| 9  | Dependabot/Renovate for flake.lock bumps                                                 | Low    | S      | Cleanup  | Yesterday 9 |
-| 10 | CI platform matrix (macOS/arm64) or document linux-only support \*                       | Low    | S      | Quality  | This report |
-| 11 | GitHub issue templates (bug/feature)                                                     | Low    | S      | Docs     | Yesterday 10 |
-| 12 | Systematize README-example compilation (flake app or CI step) \*                         | Med    | S      | Quality  | Yesterday 32 |
-| 13 | Record benchmark baselines + benchstat discipline for perf PRs \*                        | Med    | S      | Perf     | This report |
+| #  | Task                                                                                 | Impact | Effort | Category | Home         |
+| -- | ------------------------------------------------------------------------------------ | ------ | ------ | -------- | ------------ |
+| 1  | Push + verify first CI run is green; confirm badge renders                           | High   | S      | Quality  | This report  |
+| 2  | Consumer-compat check for breaking `Detect` change, then cut v0.0.2                  | High   | M      | Release  | This report  |
+| 3  | Shrink scanner initial buffer 1 MB → 64 KB in `Read` + `Detect`; benchstat verify \* | High   | S      | Perf     | This report  |
+| 4  | Verify pkg.go.dev renders v0.0.2 after tag (proxy propagation)                       | Med    | S      | Release  | Yesterday 6  |
+| 5  | Wire `dprint` into flake (treefmt program or app) or delete it                       | Med    | S      | Cleanup  | Yesterday 3  |
+| 6  | Add govulncheck job to CI (app already exists)                                       | Med    | S      | Quality  | Yesterday 4  |
+| 7  | Add `actionlint` flake app + CI step \*                                              | Low    | S      | Quality  | This report  |
+| 8  | Pin golangci-lint linter set in `.golangci.yml`                                      | Low    | S      | Quality  | Yesterday 8  |
+| 9  | Dependabot/Renovate for flake.lock bumps                                             | Low    | S      | Cleanup  | Yesterday 9  |
+| 10 | CI platform matrix (macOS/arm64) or document linux-only support \*                   | Low    | S      | Quality  | This report  |
+| 11 | GitHub issue templates (bug/feature)                                                 | Low    | S      | Docs     | Yesterday 10 |
+| 12 | Systematize README-example compilation (flake app or CI step) \*                     | Med    | S      | Quality  | Yesterday 32 |
+| 13 | Record benchmark baselines + benchstat discipline for perf PRs \*                    | Med    | S      | Perf     | This report  |
 
 **Correctness & API contract**
 
-| #  | Task                                                                                     | Impact | Effort | Category | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | ------ | ----------- |
-| 14 | Rune-safe `preview()` truncation \*                                                      | Med    | S      | Bug      | This report |
-| 15 | Decide duplicate-key line policy consciously (JSON guess vs `ErrUnknownFormat`) \*       | Low    | S      | Decision | This report |
-| 16 | Fix `doc.go:24-26` "object" wording vs actual any-JSON-value behavior                    | Med    | S      | Docs     | Yesterday 15 |
-| 17 | Wrap validate-callback errors with line number when caller omits it                      | Med    | S      | Feature  | Yesterday 16 |
-| 18 | Sentinel-based scan-error wrapping, both packages (incl. loader `ErrTooLong` parity) \*  | Low    | M      | Feature  | Yesterday 18 |
-| 19 | Reconsider `FormatAuto` in the success-path API                                          | Low    | S      | Cleanup  | Yesterday 17 |
-| 20 | CRLF + blank-line + no-trailing-newline combination matrix tests                         | Low    | S      | Quality  | Yesterday 19 |
-| 21 | `example_test.go` godoc examples (library convention)                                    | Med    | S      | Docs     | Yesterday 25 |
+| #  | Task                                                                                    | Impact | Effort | Category | Home         |
+| -- | --------------------------------------------------------------------------------------- | ------ | ------ | -------- | ------------ |
+| 14 | Rune-safe `preview()` truncation \*                                                     | Med    | S      | Bug      | This report  |
+| 15 | Decide duplicate-key line policy consciously (JSON guess vs `ErrUnknownFormat`) \*      | Low    | S      | Decision | This report  |
+| 16 | Fix `doc.go:24-26` "object" wording vs actual any-JSON-value behavior                   | Med    | S      | Docs     | Yesterday 15 |
+| 17 | Wrap validate-callback errors with line number when caller omits it                     | Med    | S      | Feature  | Yesterday 16 |
+| 18 | Sentinel-based scan-error wrapping, both packages (incl. loader `ErrTooLong` parity) \* | Low    | M      | Feature  | Yesterday 18 |
+| 19 | Reconsider `FormatAuto` in the success-path API                                         | Low    | S      | Cleanup  | Yesterday 17 |
+| 20 | CRLF + blank-line + no-trailing-newline combination matrix tests                        | Low    | S      | Quality  | Yesterday 19 |
+| 21 | `example_test.go` godoc examples (library convention)                                   | Med    | S      | Docs     | Yesterday 25 |
 
 **Testing**
 
-| #  | Task                                                                                     | Impact | Effort | Category | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| 22 | Add `FuzzDetect` seeded with the new edge cases \*                                       | Med    | S      | Quality  | Yesterday 22 |
-| 23 | `-cpu` benchmark sweep + benchstat CI regression check \*                                | Low    | M      | Perf     | This report |
-| 24 | Roundtrip property test: `Detect(Write(x)) == NDJSON` (needs #36)                        | Low    | S      | Quality  | Yesterday 24 |
+| #  | Task                                                              | Impact | Effort | Category | Home         |
+| -- | ----------------------------------------------------------------- | ------ | ------ | -------- | ------------ |
+| 22 | Add `FuzzDetect` seeded with the new edge cases \*                | Med    | S      | Quality  | Yesterday 22 |
+| 23 | `-cpu` benchmark sweep + benchstat CI regression check \*         | Low    | M      | Perf     | This report  |
+| 24 | Roundtrip property test: `Detect(Write(x)) == NDJSON` (needs #36) | Low    | S      | Quality  | Yesterday 24 |
 
 **Docs**
 
-| #  | Task                                                                                     | Impact | Effort | Category | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| 25 | ANNOTATE yesterday's 23:01 report (its items 1–4 are now done) inline \*                 | Med    | S      | Process  | This report |
-| 26 | HARVEST this + yesterday's reports into TODO_LIST/ROADMAP with evidence \*               | High   | S      | Process  | This report |
+| #  | Task                                                                                     | Impact | Effort | Category | Home         |
+| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | -------- | ------------ |
+| 25 | ANNOTATE yesterday's 23:01 report (its items 1–4 are now done) inline \*                 | Med    | S      | Process  | This report  |
+| 26 | HARVEST this + yesterday's reports into TODO_LIST/ROADMAP with evidence \*               | High   | S      | Process  | This report  |
 | 27 | Create `docs/DOMAIN_LANGUAGE.md` (Report vs Event, `version`, `event_type`)              | Low    | S      | Docs     | Yesterday 26 |
 | 28 | CONTRIBUTING.md: release process section                                                 | Low    | S      | Docs     | Yesterday 27 |
 | 29 | README: "Error handling philosophy" section (sentinels + wrapping + ErrUnknownFormat) \* | Low    | S      | Docs     | Yesterday 28 |
@@ -150,26 +150,26 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 **Design ideas (ROADMAP fuel — unrefined by design)**
 
-| #  | Task                                                                                     | Impact | Effort | Category | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| 33 | Streaming read via `iter.Seq2[T, error]` (don't materialize `[]T`)                       | High   | L      | Feature  | Yesterday 33 |
-| 34 | `Write[T]` NDJSON writer counterpart                                                     | Med    | M      | Feature  | Yesterday 34 |
-| 35 | `Detect` from `io.Reader` without full buffering                                         | Med    | M      | Feature  | Yesterday 35 |
-| 36 | Configurable/pluggable detection probe keys (decouple audit-log vocab)                   | Med    | L      | Feature  | Yesterday 36 |
-| 37 | `ReadContext` for cancellation mid-stream                                                | Low    | M      | Feature  | Yesterday 37 |
-| 38 | Combined Detect+Read convenience entry point                                             | Low    | M      | Feature  | Yesterday 38 |
-| 39 | Configurable `MaxLineBytes` per call (currently package const only)                      | Low    | S      | Feature  | Yesterday 39 |
-| 40 | Sampling more than first non-blank line for detection confidence                         | Low    | M      | Feature  | Yesterday 40 |
-| 41 | Token-based `jsontext` probe (no map alloc) if Detect ever shows up in profiles \*       | Low    | S      | Perf     | This report |
-| 42 | Pre-size the result slice heuristically in `Read` (allocs/event ≈ 1 today) \*            | Low    | S      | Perf     | This report |
+| #  | Task                                                                               | Impact | Effort | Category | Home         |
+| -- | ---------------------------------------------------------------------------------- | ------ | ------ | -------- | ------------ |
+| 33 | Streaming read via `iter.Seq2[T, error]` (don't materialize `[]T`)                 | High   | L      | Feature  | Yesterday 33 |
+| 34 | `Write[T]` NDJSON writer counterpart                                               | Med    | M      | Feature  | Yesterday 34 |
+| 35 | `Detect` from `io.Reader` without full buffering                                   | Med    | M      | Feature  | Yesterday 35 |
+| 36 | Configurable/pluggable detection probe keys (decouple audit-log vocab)             | Med    | L      | Feature  | Yesterday 36 |
+| 37 | `ReadContext` for cancellation mid-stream                                          | Low    | M      | Feature  | Yesterday 37 |
+| 38 | Combined Detect+Read convenience entry point                                       | Low    | M      | Feature  | Yesterday 38 |
+| 39 | Configurable `MaxLineBytes` per call (currently package const only)                | Low    | S      | Feature  | Yesterday 39 |
+| 40 | Sampling more than first non-blank line for detection confidence                   | Low    | M      | Feature  | Yesterday 40 |
+| 41 | Token-based `jsontext` probe (no map alloc) if Detect ever shows up in profiles \* | Low    | S      | Perf     | This report  |
+| 42 | Pre-size the result slice heuristically in `Read` (allocs/event ≈ 1 today) \*      | Low    | S      | Perf     | This report  |
 
 **Process**
 
-| #  | Task                                                                                     | Impact | Effort | Category | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| 43 | Stop relying on the auto-commit daemon for meaningful boundaries \*                      | Low    | S      | Process  | This report |
-| 44 | Decide `### Breaking` vs bold-marker convention in CHANGELOG \*                          | Low    | S      | Docs     | This report |
-| 45 | Track jsonv2 API evolution (`RawMessage` may return; revisit probe when 1.27 nears) \*   | Low    | S      | Research | This report |
+| #  | Task                                                                                   | Impact | Effort | Category | Home        |
+| -- | -------------------------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
+| 43 | Stop relying on the auto-commit daemon for meaningful boundaries \*                    | Low    | S      | Process  | This report |
+| 44 | Decide `### Breaking` vs bold-marker convention in CHANGELOG \*                        | Low    | S      | Docs     | This report |
+| 45 | Track jsonv2 API evolution (`RawMessage` may return; revisit probe when 1.27 nears) \* | Low    | S      | Research | This report |
 
 (\* = new this session. Yesterday's #1 CI, #5 lint/vet-in-CI, #7 badge, #11–14 Detect hardening, #20–21 coverage, #23 benchmarks are DONE — see CHANGELOG and section (a).)
 
@@ -177,7 +177,7 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 ## g) Top 3 questions I can NOT figure out myself
 
-1. **Does anything downstream depend on `Detect`'s OLD silent defaults — and if not, do we cut v0.0.2 now?** The breaking changes (`{"version":""}` reclassification, `ErrUnknownFormat` on ambiguous input) are in `[Unreleased]`. If auditlog-core (or any consumer) relies on malformed→JSON or neither-key→NDJSON, they need a migration note or the change needs a compat path; if nothing consumes it, v0.0.2 should ship promptly to make the break a *versioned* event. I cannot grep consumers' repos from here.
+1. **Does anything downstream depend on `Detect`'s OLD silent defaults — and if not, do we cut v0.0.2 now?** The breaking changes (`{"version":""}` reclassification, `ErrUnknownFormat` on ambiguous input) are in `[Unreleased]`. If auditlog-core (or any consumer) relies on malformed→JSON or neither-key→NDJSON, they need a migration note or the change needs a compat path; if nothing consumes it, v0.0.2 should ship promptly to make the break a _versioned_ event. I cannot grep consumers' repos from here.
 2. **`dprint.json`: integrate or delete?** Third session in a row this config has been flagged as a ghost system (covers exactly the file types I edited today, enforced by nothing). Integration (treefmt program or devShell app + CI step) and deletion are both 15-minute jobs; which one is your tooling preference?
 3. **What platforms does this library actually need CI coverage for?** The flake check warns it omitted `aarch64-darwin`, `aarch64-linux`, `x86_64-darwin`; the new CI runs linux-x86_64 only. If you develop or deploy on macOS/ARM, the matrix should say so; if linux-only is the intent, I'll document that instead of guessing.
 

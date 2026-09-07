@@ -213,7 +213,7 @@ func BenchmarkRead(b *testing.B) {
 	const eventCount = 10_000
 
 	var buf bytes.Buffer
-	for i := 0; i < eventCount; i++ {
+	for i := range eventCount {
 		fmt.Fprintf(&buf, `{"event_type":"start","phase":"before","seq":%d}`+"\n", i)
 	}
 

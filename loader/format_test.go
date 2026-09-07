@@ -246,7 +246,7 @@ func TestFormat_String(t *testing.T) {
 // BenchmarkDetect tracks first-line probing overhead over a fixed 1k-event file.
 func BenchmarkDetect(b *testing.B) {
 	var buf bytes.Buffer
-	for i := 0; i < 1_000; i++ {
+	for i := range 1_000 {
 		fmt.Fprintf(&buf, `{"event_type":"start","phase":"before","seq":%d}`+"\n", i)
 	}
 
