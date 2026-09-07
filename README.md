@@ -13,6 +13,7 @@ go get github.com/larsartmann/go-ndjson
 ```
 
 Requires Go 1.26+ with `GOEXPERIMENT=jsonv2` (the `encoding/json/v2` package is currently experimental).
+
 ## Quick start
 
 ```go

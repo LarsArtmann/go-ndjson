@@ -12,7 +12,7 @@ Every item below was verified with a passing gate before being called done.
 
 1. **Viewed ALL 14 project files** (2 source, 3 test, 6 docs, dprint.json, flake.nix, go.mod, .gitattributes) — no blind spots claimed.
 2. **Quality gates established green baseline**: `nix run .#test` ✅, `.#lint` 0 issues ✅, `.#vet` ✅, `nix flake check` ✅, coverage 96.4% root / 87.5% loader / 92.3% total.
-3. **Critical README fix**: both code examples used `ndjson.Read(reader, nil)`, which **does not compile** (`cannot infer T`) — proven via scratch build, fixed to `Read[Event](...)`, then re-verified by compiling and running the *exact* README code (output: `2 events`, `ErrEmpty ok`). README.md:37,83.
+3. **Critical README fix**: both code examples used `ndjson.Read(reader, nil)`, which **does not compile** (`cannot infer T`) — proven via scratch build, fixed to `Read[Event](...)`, then re-verified by compiling and running the _exact_ README code (output: `2 events`, `ErrEmpty ok`). README.md:37,83.
 4. **AGENTS.md de-rotted**: removed temporal pollution ("Go 1.27 is not released yet") and an unverifiable claim ("jsonv2 in Go 1.24+"); added two gotchas I hit myself this session: gopls `[stdversion]` false positives, and the treefmt/dprint dual-formatter setup. AGENTS.md:20-33.
 5. **CHANGELOG `[Unreleased]` filled** with the verified `go` directive relaxation (`1.26.4` → `1.26` since tag v0.0.1, confirmed via `git show v0.0.1:go.mod`).
 6. **FEATURES.md citation precision fix** (`loader/format.go:54` → `:54-55`); all 17 feature rows independently re-verified against source line numbers — zero ghosts found.
@@ -42,11 +42,11 @@ All discovered this session, all correctly routed to TODO_LIST/ROADMAP (a docs a
 
 Radical honesty section. Nothing here blocks development, but all of it deserved to be named.
 
-1. **The README shipped broken code since project creation.** Both examples called `Read(reader, nil)` — a guaranteed compile error for every first-time user following the quick start. Root cause: docs were written and maintained but never once *executed*. Workaround: none for a newcomer; they must read AGENTS.md (which contained the exact counter-knowledge — a split brain living in the same repo until this session).
+1. **The README shipped broken code since project creation.** Both examples called `Read(reader, nil)` — a guaranteed compile error for every first-time user following the quick start. Root cause: docs were written and maintained but never once _executed_. Workaround: none for a newcomer; they must read AGENTS.md (which contained the exact counter-knowledge — a split brain living in the same repo until this session).
 2. **`dprint.json` is a ghost system.** Added deliberately (commit 7afa208), excluded from every automation: not in treefmt, not in devShell, binary not installed, nothing enforces it. Right now it is decoration pretending to be a formatting contract. Value: only if integrated (Question 2 below).
 3. **`loader.Detect`'s core behaviors are untested accidents posing as an API.** Malformed first line → JSON (format.go:78); object with neither key → NDJSON (format.go:90); `{"version":""}` → falls through both probes → NDJSON. Zero tests pin any of these. A future refactor can silently change the "contract" and all tests stay green.
 4. **Git history pollution by the auto-commit daemon** ("chore: auto-commit 2 changed file(s) (heuristic)" — commit 3cc2fd2 landed mid-session). Not authored by this session, but it obscures what actually changed.
-5. **The `FormatAuto` constant is dead weight in practice**: it is only ever returned *together with an error* (format.go:62,65) — callers can never meaningfully receive it as a detection *result*. The public API surface advertises a state that cannot occur on the success path.
+5. **The `FormatAuto` constant is dead weight in practice**: it is only ever returned _together with an error_ (format.go:62,65) — callers can never meaningfully receive it as a detection _result_. The public API surface advertises a state that cannot occur on the success path.
 
 ## e) WHAT WE SHOULD IMPROVE
 
@@ -62,68 +62,68 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 **Ship & infrastructure**
 
-| #  | Task                                                                 | Impact | Effort | Category    | Home        |
-|----|----------------------------------------------------------------------|--------|--------|-------------|-------------|
-| 1  | Add GitHub Actions CI running `nix flake check` + `nix run .#test`    | High   | M      | Quality     | TODO_LIST ✓ |
-| 2  | Cut v0.0.2 (Unreleased now non-empty; relaxes toolchain constraint)   | Med    | S      | Release     | TODO_LIST   |
-| 3  | Wire dprint into flake (treefmt program or devShell app)              | Med    | S      | Cleanup     | TODO_LIST   |
-| 4  | Add govulncheck job to CI (app already exists: `nix run .#vulncheck`) | Med    | S      | Quality     | TODO_LIST   |
-| 5  | Add `nix run .#lint` + `.#vet` to CI matrix, not just test            | Med    | S      | Quality     | TODO_LIST   |
-| 6  | Verify pkg.go.dev renders v0.0.2 after tag (proxy propagation)        | Low    | S      | Release     | TODO_LIST   |
-| 7  | Add README CI badge once CI exists                                    | Low    | S      | Docs        | TODO_LIST   |
-| 8  | Pin golangci-lint linter set in `.golangci.yml` (currently defaults)  | Low    | S      | Quality     | TODO_LIST   |
-| 9  | Dependabot/Renovate or documented cadence for flake.lock bumps        | Low    | S      | Cleanup     | TODO_LIST   |
-| 10 | Add GitHub issue templates (bug/feature)                              | Low    | S      | Docs        | TODO_LIST   |
+| #  | Task                                                                  | Impact | Effort | Category | Home        |
+| -- | --------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
+| 1  | Add GitHub Actions CI running `nix flake check` + `nix run .#test`    | High   | M      | Quality  | TODO_LIST ✓ |
+| 2  | Cut v0.0.2 (Unreleased now non-empty; relaxes toolchain constraint)   | Med    | S      | Release  | TODO_LIST   |
+| 3  | Wire dprint into flake (treefmt program or devShell app)              | Med    | S      | Cleanup  | TODO_LIST   |
+| 4  | Add govulncheck job to CI (app already exists: `nix run .#vulncheck`) | Med    | S      | Quality  | TODO_LIST   |
+| 5  | Add `nix run .#lint` + `.#vet` to CI matrix, not just test            | Med    | S      | Quality  | TODO_LIST   |
+| 6  | Verify pkg.go.dev renders v0.0.2 after tag (proxy propagation)        | Low    | S      | Release  | TODO_LIST   |
+| 7  | Add README CI badge once CI exists                                    | Low    | S      | Docs     | TODO_LIST   |
+| 8  | Pin golangci-lint linter set in `.golangci.yml` (currently defaults)  | Low    | S      | Quality  | TODO_LIST   |
+| 9  | Dependabot/Renovate or documented cadence for flake.lock bumps        | Low    | S      | Cleanup  | TODO_LIST   |
+| 10 | Add GitHub issue templates (bug/feature)                              | Low    | S      | Docs     | TODO_LIST   |
 
 **Correctness & API contract**
 
-| #  | Task                                                                               | Impact | Effort | Category | Home        |
-|----|-------------------------------------------------------------------------------------|--------|--------|----------|-------------|
-| 11 | Switch `Detect` probes from non-empty-value to key-presence checking                | High   | M      | Bug      | TODO_LIST ✓ |
-| 12 | Decide + test the neither-key default (currently silent NDJSON, format.go:90)       | High   | S      | Bug      | TODO_LIST ✓ |
-| 13 | Decide + test malformed-first-line → JSON fallback (format.go:78)                   | High   | S      | Bug      | TODO_LIST ✓ |
-| 14 | Test/document numeric `"version"` behavior (json/v2 unmarshal error → JSON branch)  | Med    | S      | Bug      | TODO_LIST   |
-| 15 | Fix doc.go:24-26 "object" wording vs actual any-JSON-value behavior                 | Med    | S      | Docs     | TODO_LIST   |
-| 16 | Wrap validate-callback errors with line number when caller omits it (reader.go:58-60)| Med    | S      | Feature  | TODO_LIST   |
-| 17 | Reconsider `FormatAuto` in the success-path API (only ever returned alongside error)| Low    | S      | Cleanup  | TODO_LIST   |
-| 18 | Distinguish parse errors from scan errors via sentinel wrapping                     | Low    | M      | Feature  | ROADMAP     |
-| 19 | Test CRLF + blank-line + no-trailing-newline combination matrix                     | Low    | S      | Quality  | TODO_LIST   |
+| #  | Task                                                                                  | Impact | Effort | Category | Home        |
+| -- | ------------------------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
+| 11 | Switch `Detect` probes from non-empty-value to key-presence checking                  | High   | M      | Bug      | TODO_LIST ✓ |
+| 12 | Decide + test the neither-key default (currently silent NDJSON, format.go:90)         | High   | S      | Bug      | TODO_LIST ✓ |
+| 13 | Decide + test malformed-first-line → JSON fallback (format.go:78)                     | High   | S      | Bug      | TODO_LIST ✓ |
+| 14 | Test/document numeric `"version"` behavior (json/v2 unmarshal error → JSON branch)    | Med    | S      | Bug      | TODO_LIST   |
+| 15 | Fix doc.go:24-26 "object" wording vs actual any-JSON-value behavior                   | Med    | S      | Docs     | TODO_LIST   |
+| 16 | Wrap validate-callback errors with line number when caller omits it (reader.go:58-60) | Med    | S      | Feature  | TODO_LIST   |
+| 17 | Reconsider `FormatAuto` in the success-path API (only ever returned alongside error)  | Low    | S      | Cleanup  | TODO_LIST   |
+| 18 | Distinguish parse errors from scan errors via sentinel wrapping                       | Low    | M      | Feature  | ROADMAP     |
+| 19 | Test CRLF + blank-line + no-trailing-newline combination matrix                       | Low    | S      | Quality  | TODO_LIST   |
 
 **Testing**
 
-| #  | Task                                                         | Impact | Effort | Category | Home        |
-|----|--------------------------------------------------------------|--------|--------|----------|-------------|
-| 20 | Cover `Format.String` default branch (format.go:38-39)       | Med    | S      | Quality  | TODO_LIST ✓ |
-| 21 | Cover loader scanner-error wrap (format.go:61-63)            | Med    | S      | Quality  | TODO_LIST ✓ |
-| 22 | Add `FuzzDetect` (fuzzing covers only `Read` today)          | Med    | S      | Quality  | TODO_LIST   |
-| 23 | Add `BenchmarkRead` + `BenchmarkDetect`                      | Low    | S      | Quality  | TODO_LIST ✓ |
-| 24 | Roundtrip property test: `Detect(Write(x)) == NDJSON`        | Low    | S      | Quality  | ROADMAP     |
-| 25 | `example_test.go` godoc examples (Go library convention)     | Med    | S      | Docs     | TODO_LIST   |
+| #  | Task                                                     | Impact | Effort | Category | Home        |
+| -- | -------------------------------------------------------- | ------ | ------ | -------- | ----------- |
+| 20 | Cover `Format.String` default branch (format.go:38-39)   | Med    | S      | Quality  | TODO_LIST ✓ |
+| 21 | Cover loader scanner-error wrap (format.go:61-63)        | Med    | S      | Quality  | TODO_LIST ✓ |
+| 22 | Add `FuzzDetect` (fuzzing covers only `Read` today)      | Med    | S      | Quality  | TODO_LIST   |
+| 23 | Add `BenchmarkRead` + `BenchmarkDetect`                  | Low    | S      | Quality  | TODO_LIST ✓ |
+| 24 | Roundtrip property test: `Detect(Write(x)) == NDJSON`    | Low    | S      | Quality  | ROADMAP     |
+| 25 | `example_test.go` godoc examples (Go library convention) | Med    | S      | Docs     | TODO_LIST   |
 
 **Docs**
 
-| #  | Task                                                                 | Impact | Effort | Category | Home      |
-|----|----------------------------------------------------------------------|--------|--------|----------|-----------|
-| 26 | Create `docs/DOMAIN_LANGUAGE.md` (Report vs Event, `version`, `event_type`) | Low | S   | Docs     | TODO_LIST |
-| 27 | CONTRIBUTING.md: add release process section                          | Low    | S      | Docs     | TODO_LIST |
-| 28 | README: "Error handling philosophy" short section (sentinels + wrapping) | Low | S      | Docs     | TODO_LIST |
-| 29 | README: state the 1 MB line cap in the quick-start prose (currently only in errors section) | Low | S | Docs  | TODO_LIST |
-| 30 | CHANGELOG: add keep-a-changelog compare links footer                  | Low    | S      | Docs     | TODO_LIST |
-| 31 | AGENTS.md: revisit gopls gotcha after Go 1.27 ships (will become stale) | Low  | S      | Docs     | TODO_LIST |
-| 32 | Make "compile every README example" a standing audit step (skill/AGENTS note) | Med | S   | Process  | TODO_LIST |
+| #  | Task                                                                                        | Impact | Effort | Category | Home      |
+| -- | ------------------------------------------------------------------------------------------- | ------ | ------ | -------- | --------- |
+| 26 | Create `docs/DOMAIN_LANGUAGE.md` (Report vs Event, `version`, `event_type`)                 | Low    | S      | Docs     | TODO_LIST |
+| 27 | CONTRIBUTING.md: add release process section                                                | Low    | S      | Docs     | TODO_LIST |
+| 28 | README: "Error handling philosophy" short section (sentinels + wrapping)                    | Low    | S      | Docs     | TODO_LIST |
+| 29 | README: state the 1 MB line cap in the quick-start prose (currently only in errors section) | Low    | S      | Docs     | TODO_LIST |
+| 30 | CHANGELOG: add keep-a-changelog compare links footer                                        | Low    | S      | Docs     | TODO_LIST |
+| 31 | AGENTS.md: revisit gopls gotcha after Go 1.27 ships (will become stale)                     | Low    | S      | Docs     | TODO_LIST |
+| 32 | Make "compile every README example" a standing audit step (skill/AGENTS note)               | Med    | S      | Process  | TODO_LIST |
 
 **Design ideas (ROADMAP fuel — unrefined by design)**
 
-| #  | Task                                                                 | Impact | Effort | Category | Home      |
-|----|----------------------------------------------------------------------|--------|--------|----------|-----------|
-| 33 | Streaming read via `iter.Seq2[T, error]` (don't materialize `[]T`)   | High   | L      | Feature  | ROADMAP ✓ |
-| 34 | `Write[T]` NDJSON writer counterpart                                 | Med    | M      | Feature  | ROADMAP ✓ |
-| 35 | `Detect` from `io.Reader` without full buffering                     | Med    | M      | Feature  | ROADMAP ✓ |
-| 36 | Configurable/pluggable detection probe keys (decouple audit-log vocab)| Med   | L      | Feature  | ROADMAP ✓ |
-| 37 | `ReadContext` for cancellation mid-stream                            | Low    | M      | Feature  | ROADMAP ✓ |
-| 38 | Combined Detect+Read convenience entry point                         | Low    | M      | Feature  | ROADMAP   |
-| 39 | Configurable `MaxLineBytes` per call (currently package const only)  | Low    | S      | Feature  | ROADMAP   |
-| 40 | Sampling more than first non-blank line for detection confidence     | Low    | M      | Feature  | ROADMAP ✓ |
+| #  | Task                                                                   | Impact | Effort | Category | Home      |
+| -- | ---------------------------------------------------------------------- | ------ | ------ | -------- | --------- |
+| 33 | Streaming read via `iter.Seq2[T, error]` (don't materialize `[]T`)     | High   | L      | Feature  | ROADMAP ✓ |
+| 34 | `Write[T]` NDJSON writer counterpart                                   | Med    | M      | Feature  | ROADMAP ✓ |
+| 35 | `Detect` from `io.Reader` without full buffering                       | Med    | M      | Feature  | ROADMAP ✓ |
+| 36 | Configurable/pluggable detection probe keys (decouple audit-log vocab) | Med    | L      | Feature  | ROADMAP ✓ |
+| 37 | `ReadContext` for cancellation mid-stream                              | Low    | M      | Feature  | ROADMAP ✓ |
+| 38 | Combined Detect+Read convenience entry point                           | Low    | M      | Feature  | ROADMAP   |
+| 39 | Configurable `MaxLineBytes` per call (currently package const only)    | Low    | S      | Feature  | ROADMAP   |
+| 40 | Sampling more than first non-blank line for detection confidence       | Low    | M      | Feature  | ROADMAP ✓ |
 
 (\✓ = already placed in TODO_LIST.md / ROADMAP.md this session. Items without ✓ are new leads from this report and need HARVEST routing before they count as tracked.)
 
@@ -137,4 +137,4 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 ---
 
-*First status report for this project — no prior baseline. All evidence from session 2026-09-07. Next docs-health HARVEST run should route section (f).*
+_First status report for this project — no prior baseline. All evidence from session 2026-09-07. Next docs-health HARVEST run should route section (f)._
