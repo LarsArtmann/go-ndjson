@@ -1,6 +1,7 @@
 package ndjson_test
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"strings"
@@ -204,5 +205,32 @@ func TestRead_NoTrailingNewline(t *testing.T) {
 
 	if len(events) != 1 {
 		t.Fatalf("expected 1 event without trailing newline, got %d", len(events))
+	}
+}
+
+// BenchmarkRead tracks per-line parsing overhead over a fixed 10k-event file.
+func BenchmarkRead(b *testing.B) {
+	const eventCount = 10_000
+
+	var buf bytes.Buffer
+	for i := 0; i < eventCount; i++ {
+		fmt.Fprintf(&buf, `{"event_type":"start","phase":"before","seq":%d}`+"\n", i)
+	}
+
+	payload := buf.Bytes()
+
+	b.SetBytes(int64(len(payload)))
+	b.ReportAllocs()
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		events, err := ndjson.Read[testEvent](bytes.NewReader(payload), nil)
+		if err != nil {
+			b.Fatal(err)
+		}
+
+		if len(events) != eventCount {
+			b.Fatalf("got %d events, want %d", len(events), eventCount)
+		}
 	}
 }

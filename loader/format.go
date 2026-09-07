@@ -3,8 +3,8 @@ package loader
 import (
 	"bufio"
 	"bytes"
-	"encoding/json/v2"
 	"encoding/json/jsontext"
+	"encoding/json/v2"
 	"errors"
 	"fmt"
 )
@@ -89,7 +89,11 @@ func detectLineFormat(line []byte) (Format, error) {
 			return FormatJSON, nil
 		}
 
-		return FormatAuto, fmt.Errorf("%w: first line is not a JSON object: %q", ErrUnknownFormat, preview(line))
+		return FormatAuto, fmt.Errorf(
+			"%w: first line is not a JSON object: %q",
+			ErrUnknownFormat,
+			preview(line),
+		)
 	}
 
 	if _, ok := fields["event_type"]; ok {
@@ -100,7 +104,11 @@ func detectLineFormat(line []byte) (Format, error) {
 		return FormatJSON, nil
 	}
 
-	return FormatAuto, fmt.Errorf("%w: first line has neither an %q nor a %q key: %q", ErrUnknownFormat, "event_type", "version", preview(line))
+	return FormatAuto, fmt.Errorf(
+		`%w: first line has neither an "event_type" nor a "version" key: %q`,
+		ErrUnknownFormat,
+		preview(line),
+	)
 }
 
 // preview returns data truncated to a bounded length for inclusion in error
