@@ -7,7 +7,7 @@ Non-obvious context for AI sessions working in `github.com/larsartmann/go-ndjson
 A Go **library** (not an application) for reading newline-delimited JSON. Two packages, no dependencies:
 
 - **`ndjson`** (root) — generic streaming reader. `Read[T any]` parses NDJSON into `[]T` with an optional per-line validation callback.
-- **`loader`** — format detection. `Detect([]byte)` inspects the first non-blank line to classify content as JSON Report (has `"version"` key) vs NDJSON Event stream (has `"event_type"` key).
+- **`loader`** — format detection. `Detect([]byte)` inspects the first non-blank line to classify content as JSON Report (has `"version"` key) vs NDJSON Event stream (has `"event_type"` key), deciding by key presence with `"event_type"` winning ties. Ambiguous input fails with `ErrUnknownFormat` instead of guessing.
 
 ## Critical Gotcha: GOEXPERIMENT=jsonv2
 
@@ -66,7 +66,7 @@ The two packages are independent: `loader` only classifies bytes; `ndjson` only 
 ## Conventions
 
 - **Generics over interfaces**: `Read[T any]` is the core API. Pass an explicit type parameter when `validate` is nil (`Read[testEvent](reader, nil)`) since type inference needs the callback to pin `T`.
-- **Sentinel errors** checked with `errors.Is`: `ErrEmpty`, `ErrNoEvents`, `ErrOversizedLine` (root); `ErrNoContent` (loader).
+- **Sentinel errors** checked with `errors.Is`: `ErrEmpty`, `ErrNoEvents`, `ErrOversizedLine` (root); `ErrNoContent`, `ErrUnknownFormat` (loader).
 - **1 MB line cap**: `MaxLineBytes = 1 << 20` — public in root, unexported `maxScanBytes` twin in loader.
 - **External test packages**: tests live in `*_test.go` with `package ndjson_test`, importing the library by path.
 - **Fuzz test**: `FuzzRead` asserts the reader never panics and never returns events alongside an error.
