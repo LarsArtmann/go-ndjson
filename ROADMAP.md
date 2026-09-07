@@ -41,8 +41,10 @@ Raw ideas:
 
 - Configurable probe keys or pluggable classification predicates
 - Richer heuristics (sampling more than the first non-blank line)
-- Decide and document a principled policy for ambiguous inputs instead of the
-  current silent defaults
+
+The ambiguous-input policy is no longer silent: `Detect` classifies by key
+presence and fails with `ErrUnknownFormat` on ambiguous input (decided
+2026-09-07, see `loader/format.go` and `CHANGELOG.md`).
 
 ## Non-goals
 

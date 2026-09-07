@@ -35,11 +35,28 @@
 
 ## Format Detection (loader package)
 
-| Feature                          | Status                | Notes                                                                    |
-| -------------------------------- | --------------------- | ------------------------------------------------------------------------ |
-| JSON Report detection            | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:81`; tested in `TestDetect_JSONReport`                 |
-| NDJSON Event detection           | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:85`; tested in `TestDetect_NDJSON`                     |
-| Multi-line JSON fallback         | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:78`; tested in `TestDetect_MultiLineJSON`              |
-| Blank line skipping before probe | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:54-55`; tested in `TestDetect_BlankLinesBeforeContent` |
-| `ErrNoContent` sentinel          | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:15`; tested in `TestDetect_EmptyInput`                 |
-| `Format.String()` method         | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:30`; tested in `TestFormat_String`                     |
+| Feature                          | Status                | Notes                                                                                          |
+| -------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------- |
+| JSON Report detection            | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:99`; key-presence probe (any `"version"` key, incl. empty/null); `TestDetect_KeyPresence` |
+| NDJSON Event detection           | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:95`; key-presence probe; `"event_type"` wins over `"version"` when both present |
+| Multi-line JSON fallback         | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:87-90`; unparseable first line is a report guess only when it starts with `{` |
+| Ambiguous input rejection        | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:92,103`; neither key, non-object, or text fails with `ErrUnknownFormat`; `TestDetect_UnknownFormat` |
+| Blank line skipping before probe | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:66-71`; tested in `TestDetect_BlankLinesBeforeContent`                        |
+| `ErrNoContent` sentinel          | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:16`; tested in `TestDetect_EmptyInput`                                        |
+| `ErrUnknownFormat` sentinel      | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:21`; errors carry a truncated line preview; `TestDetect_UnknownFormatErrorPreviewsLine` |
+| Oversized first line error       | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:73-76`; wraps `bufio.ErrTooLong`; tested in `TestDetect_OversizedLine`        |
+| `Format.String()` method         | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:36`; tested in `TestFormat_String`                                            |
+
+## Tests & Benchmarks
+
+| Feature                          | Status                | Notes                                                                     |
+| -------------------------------- | --------------------- | ------------------------------------------------------------------------- |
+| Fuzz test (`FuzzRead`)           | 🟢 `FULLY_FUNCTIONAL` | `fuzz_test.go`; reader never panics, never returns events alongside error |
+| Benchmarks                       | 🟢 `FULLY_FUNCTIONAL` | `BenchmarkRead` (`reader_test.go`), `BenchmarkDetect` (`loader/format_test.go`) |
+
+## Project Infrastructure
+
+| Feature                          | Status                | Notes                                                                     |
+| -------------------------------- | --------------------- | ------------------------------------------------------------------------- |
+| GitHub Actions CI                | 🟢 `FULLY_FUNCTIONAL` | `.github/workflows/ci.yml`; runs `nix flake check` + build, vet, lint, test, race |
+| Flake quality gates              | 🟢 `FULLY_FUNCTIONAL` | `flake.nix` apps: test, test-race, build, vet, lint, coverage, vulncheck   |

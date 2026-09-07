@@ -1,5 +1,7 @@
 # go-ndjson
 
+[![CI](https://github.com/larsartmann/go-ndjson/actions/workflows/ci.yml/badge.svg)](https://github.com/larsartmann/go-ndjson/actions/workflows/ci.yml)
+
 > Parse newline-delimited JSON into typed Go slices with optional per-line validation and format auto-detection.
 
 ## Why
@@ -64,17 +66,22 @@ events, err := ndjson.Read(reader, func(lineNum int, e Event) error {
 
 ### Format detection
 
-The `loader` package detects whether raw bytes are a single JSON report or an NDJSON event stream:
+The `loader` package detects whether raw bytes are a single JSON report or an NDJSON event stream. Detection probes the first non-blank line and decides by key presence, not value: any `"version"` key marks a report, any `"event_type"` key marks events; when both are present, `"event_type"` wins. Ambiguous input (neither key, or a first line that is not a JSON object) fails with `ErrUnknownFormat` instead of guessing:
 
 ```go
 import "github.com/larsartmann/go-ndjson/loader"
 
 format, err := loader.Detect(data)
+if err != nil {
+	// ErrNoContent (no data) or ErrUnknownFormat (ambiguous input)
+	return
+}
+
 switch format {
 case loader.FormatJSON:
-	// single JSON object (has "version" key)
+	// single JSON report (has a "version" key)
 case loader.FormatNDJSON:
-	// newline-delimited events (has "event_type" key)
+	// newline-delimited events (has an "event_type" key)
 }
 ```
 

@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gates:
+    name: Flake gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v22
+
+      - name: Flake check (incl. formatting via treefmt)
+        run: nix flake check
+
+      - name: Build
+        run: nix run .#build
+
+      - name: Vet
+        run: nix run .#vet
+
+      - name: Lint
+        run: nix run .#lint
+
+      - name: Test
+        run: nix run .#test
+
+      - name: Test with race detector
+        run: nix run .#test-race
