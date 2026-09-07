@@ -17,9 +17,18 @@ The code imports **`encoding/json/v2`**, which is behind a build constraint in G
 GOEXPERIMENT=jsonv2
 ```
 
-Without it, `go build` and `go test` fail with `build constraints exclude all Go files in .../encoding/json/v2`. **This is NOT a Go version problem** — Go 1.27 is not released yet. The experiment flag unlocks the v2 package in Go 1.24+.
+Without it, `go build` and `go test` fail with `build constraints exclude all Go files in .../encoding/json/v2`. **This is NOT a Go version problem** — the v2 package simply ships behind the experiment flag.
 
 **The flake.nix handles this automatically** — all apps (`nix run .#test`, `nix run .#build`, etc.) and the devShell set `GOEXPERIMENT=jsonv2` for you. If running raw `go` commands outside the flake, you must `export GOEXPERIMENT=jsonv2` first.
+
+## Editor Gotcha: gopls stdversion Warnings
+
+gopls reports `[stdversion] json.Unmarshal requires go1.27 or later (module is go1.26)` warnings on `reader.go` and `loader/format.go`. **These are false positives** under `GOEXPERIMENT=jsonv2` — builds, tests, vet, and lint all pass. Do not "fix" them by changing imports or bumping the go directive.
+
+## Formatting: Two Systems
+
+- **Go + Nix**: treefmt (gofumpt, goimports, golines, nixfmt), enforced by `nix flake check`.
+- **Markdown + JSON + YAML**: configured separately in `dprint.json` — not wired into the flake. `CHANGELOG.md` is excluded from dprint.
 
 ## Commands
 

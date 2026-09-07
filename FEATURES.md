@@ -40,6 +40,6 @@
 | JSON Report detection            | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:81`; tested in `TestDetect_JSONReport`              |
 | NDJSON Event detection           | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:85`; tested in `TestDetect_NDJSON`                  |
 | Multi-line JSON fallback         | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:78`; tested in `TestDetect_MultiLineJSON`           |
-| Blank line skipping before probe | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:54`; tested in `TestDetect_BlankLinesBeforeContent` |
+| Blank line skipping before probe | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:54-55`; tested in `TestDetect_BlankLinesBeforeContent` |
 | `ErrNoContent` sentinel          | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:15`; tested in `TestDetect_EmptyInput`              |
 | `Format.String()` method         | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:30`; tested in `TestFormat_String`                  |

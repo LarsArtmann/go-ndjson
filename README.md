@@ -13,7 +13,6 @@ go get github.com/larsartmann/go-ndjson
 ```
 
 Requires Go 1.26+ with `GOEXPERIMENT=jsonv2` (the `encoding/json/v2` package is currently experimental).
-
 ## Quick start
 
 ```go
@@ -35,7 +34,7 @@ func main() {
 	input := `{"event_type":"start","phase":"before"}
 {"event_type":"end","phase":"after"}`
 
-	events, err := ndjson.Read(strings.NewReader(input), nil)
+	events, err := ndjson.Read[Event](strings.NewReader(input), nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -44,6 +43,8 @@ func main() {
 	fmt.Printf("%d events\n", len(events)) // 2 events
 }
 ```
+
+> The explicit type parameter is required when `validate` is nil: type inference pins `T` from the callback, and `nil` gives it nothing to infer from.
 
 ## Usage
 
@@ -65,6 +66,8 @@ events, err := ndjson.Read(reader, func(lineNum int, e Event) error {
 The `loader` package detects whether raw bytes are a single JSON report or an NDJSON event stream:
 
 ```go
+import "github.com/larsartmann/go-ndjson/loader"
+
 format, err := loader.Detect(data)
 switch format {
 case loader.FormatJSON:
@@ -77,7 +80,7 @@ case loader.FormatNDJSON:
 ### Sentinel errors
 
 ```go
-events, err := ndjson.Read(reader, nil)
+events, err := ndjson.Read[Event](reader, nil)
 switch {
 case errors.Is(err, ndjson.ErrEmpty):
 	// input contained no data
