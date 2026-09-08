@@ -13,9 +13,9 @@
 | 🔵 `BLOCKED`     | Cannot proceed, external dependency or decision needed.     |
 | 🟢 `DONE`        | Completed. Remove from this list and log in `CHANGELOG.md`. |
 
-Harvested 2026-09-08 from `docs/status/2026-09-07_23-01_docs-health-audit-status.md`
-and `docs/status/2026-09-07_23-34_todo-implementation-status.md` (both archived
-after harvest). Every item re-verified against the code at harvest time.
+Harvested 2026-09-08 from `docs/status/archived/2026-09-07_23-01_docs-health-audit-status.md`
+and `docs/status/archived/2026-09-07_23-34_todo-implementation-status.md` (both annotated
+inline and archived after harvest). Every item re-verified against the code at harvest time.
 
 ## Items
 

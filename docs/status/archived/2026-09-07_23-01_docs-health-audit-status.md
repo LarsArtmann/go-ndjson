@@ -1,6 +1,6 @@
 # Status Report: Docs-Health Audit — go-ndjson
 
-> **Archived 2026-09-08.** Every actionable item below carries an inline verdict: `done at <hash>`, `done (docs-health pass 2026-09-08)`, an answer, or an `open — tracked in` pointer to TODO_LIST.md / ROADMAP.md (harvested 2026-09-08). Sections (a) and (d) are point-in-time session claims, not action items, and are intentionally unmarked. Section (b) item 2 is a standing caveat, not a task.
+> **Archived 2026-09-08.** Every actionable item below carries an inline verdict: `done at <hash>`, `done (docs-health pass 2026-09-08)`, an answer, or an `open — tracked in` pointer to TODO_LIST.md / ROADMAP.md (harvested 2026-09-08). Section (a) is point-in-time session claims, section (b) item 2 is a standing caveat, and section (d) items 1 and 4 are self-contained historical notes; intentionally unmarked.
 
 **Snapshot:** 2026-09-07 23:01 CEST
 **Scope:** This session's work only — full docs-health AUDIT (BUILD + VERIFY) of `github.com/larsartmann/go-ndjson`. No new research was done for this report.
@@ -45,10 +45,10 @@ All discovered this session, all correctly routed to TODO_LIST/ROADMAP (a docs a
 Radical honesty section. Nothing here blocks development, but all of it deserved to be named.
 
 1. **The README shipped broken code since project creation.** Both examples called `Read(reader, nil)` — a guaranteed compile error for every first-time user following the quick start. Root cause: docs were written and maintained but never once _executed_. Workaround: none for a newcomer; they must read AGENTS.md (which contained the exact counter-knowledge — a split brain living in the same repo until this session).
-2. **`dprint.json` is a ghost system.** Added deliberately (commit 7afa208), excluded from every automation: not in treefmt, not in devShell, binary not installed, nothing enforces it. Right now it is decoration pretending to be a formatting contract. Value: only if integrated (Question 2 below).
-3. **`loader.Detect`'s core behaviors are untested accidents posing as an API.** Malformed first line → JSON (format.go:78); object with neither key → NDJSON (format.go:90); `{"version":""}` → falls through both probes → NDJSON. Zero tests pin any of these. A future refactor can silently change the "contract" and all tests stay green.
+2. ~~**`dprint.json` is a ghost system.** Added deliberately (commit 7afa208), excluded from every automation: not in treefmt, not in devShell, binary not installed, nothing enforces it. Right now it is decoration pretending to be a formatting contract. Value: only if integrated (Question 2 below).~~ tracked in TODO_LIST.md #12 (harvested 2026-09-08)
+3. ~~**`loader.Detect`'s core behaviors are untested accidents posing as an API.** Malformed first line → JSON (format.go:78); object with neither key → NDJSON (format.go:90); `{"version":""}` → falls through both probes → NDJSON. Zero tests pin any of these. A future refactor can silently change the "contract" and all tests stay green.~~ resolved — fallback policy pinned by tests at f5fe7a6, b18e17a
 4. **Git history pollution by the auto-commit daemon** ("chore: auto-commit 2 changed file(s) (heuristic)" — commit 3cc2fd2 landed mid-session). Not authored by this session, but it obscures what actually changed.
-5. **The `FormatAuto` constant is dead weight in practice**: it is only ever returned _together with an error_ (format.go:62,65) — callers can never meaningfully receive it as a detection _result_. The public API surface advertises a state that cannot occur on the success path.
+5. ~~**The `FormatAuto` constant is dead weight in practice**: it is only ever returned _together with an error_ (format.go:62,65) — callers can never meaningfully receive it as a detection _result_. The public API surface advertises a state that cannot occur on the success path.~~ tracked in TODO_LIST.md #16 (harvested 2026-09-08)
 
 ## e) WHAT WE SHOULD IMPROVE
 
