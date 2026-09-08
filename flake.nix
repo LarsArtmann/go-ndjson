@@ -106,7 +106,7 @@
               go vet ./...
             '';
 
-            lint = mkApp "lint" [ pkgs.golangci-lint ] ''
+            lint = mkApp "lint" [ goPkg pkgs.golangci-lint ] ''
               export GOEXPERIMENT=jsonv2
               golangci-lint run ./...
             '';
@@ -117,7 +117,7 @@
               go tool cover -func=coverage.out
             '';
 
-            vulncheck = mkApp "vulncheck" [ pkgs.govulncheck ] ''
+            vulncheck = mkApp "vulncheck" [ goPkg pkgs.govulncheck ] ''
               export GOEXPERIMENT=jsonv2
               govulncheck ./...
             '';
