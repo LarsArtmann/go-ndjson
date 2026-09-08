@@ -30,13 +30,13 @@ Every item below was verified with a passing gate before being called done.
 
 All discovered this session, all correctly routed to TODO_LIST/ROADMAP (a docs audit should not silently start feature work). None blocked; none started.
 
-1. CI workflow (no `.github/` at all) — in TODO_LIST.md.
-2. `loader.Detect` edge-case hardening — in TODO_LIST.md.
-3. Loader branch test coverage — in TODO_LIST.md.
-4. `BenchmarkRead` — in TODO_LIST.md.
+1. ~~CI workflow (no `.github/` at all) — in TODO_LIST.md.~~ done at `5e98073`
+2. ~~`loader.Detect` edge-case hardening — in TODO_LIST.md.~~ done at `f5fe7a6`, `b18e17a`
+3. ~~Loader branch test coverage — in TODO_LIST.md.~~ done at `b18e17a`
+4. ~~`BenchmarkRead` — in TODO_LIST.md.~~ done at `b18e17a`
 5. All ROADMAP raw ideas: streaming reader, `Write[T]`, generalized/configurable detection, `ReadContext`.
 6. v0.0.2 release — the tag would now have a real `[Unreleased]` section to ship.
-7. Archive/annotate workflow for this project's own future status reports (first one is being created right now — the workflow starts existing with this file).
+7. ~~Archive/annotate workflow for this project's own future status reports (first one is being created right now — the workflow starts existing with this file).~~ done (docs-health pass 2026-09-08)
 
 ## d) TOTALLY FUCKED UP
 
@@ -52,9 +52,9 @@ Radical honesty section. Nothing here blocks development, but all of it deserved
 
 1. **Docs audits must compile README examples systematically.** This session it was an ad-hoc idea — and it caught the only Critical finding. Make "every code block in README compiles and runs" a standing step, not luck.
 2. **One formatting system, enforced.** Two formatter configs (treefmt for go/nix, dprint for md/json/yaml) where only one is wired anywhere is a drift machine waiting to happen. Pick one owner per file type and enforce it in `nix flake check`.
-3. **Pin `Detect`'s fallback policy with explicit decision + tests** before any hardening refactor — otherwise the hardening PR becomes a silent behavior change.
+3. ~~**Pin `Detect`'s fallback policy with explicit decision + tests** before any hardening refactor — otherwise the hardening PR becomes a silent behavior change.~~ done at `f5fe7a6`, `b18e17a`
 4. **doc.go vs code nuance**: reader.go:24-26 says each line "must be a single JSON-encoded object", but the code happily parses arrays/primitives (`json.Unmarshal` into `T`). Either tighten the doc or embrace and document the generality.
-5. **Harvest discipline**: this report's section (f) must be pulled into TODO_LIST/ROADMAP by the next docs-health HARVEST run, or it dies entombed in this timestamped file (the standing #1 failure mode).
+5. ~~**Harvest discipline**: this report's section (f) must be pulled into TODO_LIST/ROADMAP by the next docs-health HARVEST run, or it dies entombed in this timestamped file (the standing #1 failure mode).~~ done (docs-health pass 2026-09-08)
 
 ## f) Top things to get done next (up to 50, brainstorm — mostly ROADMAP fuel)
 
@@ -64,13 +64,13 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 | #  | Task                                                                  | Impact | Effort | Category | Home        |
 | -- | --------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| 1  | Add GitHub Actions CI running `nix flake check` + `nix run .#test`    | High   | M      | Quality  | TODO_LIST ✓ |
+| ~~1~~  | ~~Add GitHub Actions CI running `nix flake check` + `nix run .#test`~~ done at `5e98073` | ~~High~~ | ~~M~~ | ~~Quality~~ | ~~TODO_LIST ✓~~ |
 | 2  | Cut v0.0.2 (Unreleased now non-empty; relaxes toolchain constraint)   | Med    | S      | Release  | TODO_LIST   |
 | 3  | Wire dprint into flake (treefmt program or devShell app)              | Med    | S      | Cleanup  | TODO_LIST   |
 | 4  | Add govulncheck job to CI (app already exists: `nix run .#vulncheck`) | Med    | S      | Quality  | TODO_LIST   |
-| 5  | Add `nix run .#lint` + `.#vet` to CI matrix, not just test            | Med    | S      | Quality  | TODO_LIST   |
+| ~~5~~  | ~~Add `nix run .#lint` + `.#vet` to CI matrix, not just test~~ done at `5e98073` | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST~~ |
 | 6  | Verify pkg.go.dev renders v0.0.2 after tag (proxy propagation)        | Low    | S      | Release  | TODO_LIST   |
-| 7  | Add README CI badge once CI exists                                    | Low    | S      | Docs     | TODO_LIST   |
+| ~~7~~  | ~~Add README CI badge once CI exists~~ done at `5e98073` | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
 | 8  | Pin golangci-lint linter set in `.golangci.yml` (currently defaults)  | Low    | S      | Quality  | TODO_LIST   |
 | 9  | Dependabot/Renovate or documented cadence for flake.lock bumps        | Low    | S      | Cleanup  | TODO_LIST   |
 | 10 | Add GitHub issue templates (bug/feature)                              | Low    | S      | Docs     | TODO_LIST   |
@@ -79,10 +79,10 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 | #  | Task                                                                                  | Impact | Effort | Category | Home        |
 | -- | ------------------------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| 11 | Switch `Detect` probes from non-empty-value to key-presence checking                  | High   | M      | Bug      | TODO_LIST ✓ |
-| 12 | Decide + test the neither-key default (currently silent NDJSON, format.go:90)         | High   | S      | Bug      | TODO_LIST ✓ |
-| 13 | Decide + test malformed-first-line → JSON fallback (format.go:78)                     | High   | S      | Bug      | TODO_LIST ✓ |
-| 14 | Test/document numeric `"version"` behavior (json/v2 unmarshal error → JSON branch)    | Med    | S      | Bug      | TODO_LIST   |
+| ~~11~~ | ~~Switch `Detect` probes from non-empty-value to key-presence checking~~ done at `f5fe7a6` | ~~High~~ | ~~M~~ | ~~Bug~~ | ~~TODO_LIST ✓~~ |
+| ~~12~~ | ~~Decide + test the neither-key default (currently silent NDJSON, format.go:90)~~ done at `f5fe7a6`, `b18e17a` | ~~High~~ | ~~S~~ | ~~Bug~~ | ~~TODO_LIST ✓~~ |
+| ~~13~~ | ~~Decide + test malformed-first-line → JSON fallback (format.go:78)~~ done at `f5fe7a6`, `b18e17a` | ~~High~~ | ~~S~~ | ~~Bug~~ | ~~TODO_LIST ✓~~ |
+| ~~14~~ | ~~Test/document numeric `"version"` behavior (json/v2 unmarshal error → JSON branch)~~ done at `b18e17a` | ~~Med~~ | ~~S~~ | ~~Bug~~ | ~~TODO_LIST~~ |
 | 15 | Fix doc.go:24-26 "object" wording vs actual any-JSON-value behavior                   | Med    | S      | Docs     | TODO_LIST   |
 | 16 | Wrap validate-callback errors with line number when caller omits it (reader.go:58-60) | Med    | S      | Feature  | TODO_LIST   |
 | 17 | Reconsider `FormatAuto` in the success-path API (only ever returned alongside error)  | Low    | S      | Cleanup  | TODO_LIST   |
@@ -93,10 +93,10 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 | #  | Task                                                     | Impact | Effort | Category | Home        |
 | -- | -------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| 20 | Cover `Format.String` default branch (format.go:38-39)   | Med    | S      | Quality  | TODO_LIST ✓ |
-| 21 | Cover loader scanner-error wrap (format.go:61-63)        | Med    | S      | Quality  | TODO_LIST ✓ |
+| ~~20~~ | ~~Cover `Format.String` default branch (format.go:38-39)~~ done at `b18e17a` | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST ✓~~ |
+| ~~21~~ | ~~Cover loader scanner-error wrap (format.go:61-63)~~ done at `b18e17a` | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST ✓~~ |
 | 22 | Add `FuzzDetect` (fuzzing covers only `Read` today)      | Med    | S      | Quality  | TODO_LIST   |
-| 23 | Add `BenchmarkRead` + `BenchmarkDetect`                  | Low    | S      | Quality  | TODO_LIST ✓ |
+| ~~23~~ | ~~Add `BenchmarkRead` + `BenchmarkDetect`~~ done at `b18e17a` | ~~Low~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST ✓~~ |
 | 24 | Roundtrip property test: `Detect(Write(x)) == NDJSON`    | Low    | S      | Quality  | ROADMAP     |
 | 25 | `example_test.go` godoc examples (Go library convention) | Med    | S      | Docs     | TODO_LIST   |
 

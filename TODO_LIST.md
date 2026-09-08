@@ -13,7 +13,7 @@
 | 🔵 `BLOCKED`     | Cannot proceed, external dependency or decision needed.     |
 | 🟢 `DONE`        | Completed. Remove from this list and log in `CHANGELOG.md`. |
 
-Harvested 2026-09-07 from `docs/status/2026-09-07_23-01_docs-health-audit-status.md`
+Harvested 2026-09-08 from `docs/status/2026-09-07_23-01_docs-health-audit-status.md`
 and `docs/status/2026-09-07_23-34_todo-implementation-status.md` (both archived
 after harvest). Every item re-verified against the code at harvest time.
 
@@ -22,7 +22,7 @@ after harvest). Every item re-verified against the code at harvest time.
 | #   | Task                                                                                           | Impact | Effort | Status            | Evidence                                                                                                   |
 | --- | ---------------------------------------------------------------------------------------------- | ------ | ------ | ----------------- | ---------------------------------------------------------------------------------------------------------- |
 | 1   | Push and verify first green CI run; confirm README badge renders                               | High   | S      | 🟡 `IN_PROGRESS`  | First run failed at lint (`unknown GOEXPERIMENT jsonv2`); root cause fixed in `flake.nix:109-113,120-123`    |
-| 2   | Cut v0.0.2 (`[Unreleased]` carries breaking `Detect` changes); verify pkg.go.dev after tag     | High   | M      | 🔴 `TODO`         | Consumer-compat checked 2026-09-07: `samber-do-auditlog/loader.go:81` wraps Detect errors, `go-workflow-auditlog` uses `Read` only |
+| 2   | Cut v0.0.2 (`[Unreleased]` carries breaking `Detect` changes); verify pkg.go.dev after tag     | High   | M      | 🔴 `TODO`         | Consumer-compat checked 2026-09-08: `samber-do-auditlog/loader.go:81` wraps Detect errors, `go-workflow-auditlog` uses `Read` only |
 | 3   | Shrink scanner initial buffer 1 MB → 64 KB in `Read` + `Detect`; verify with benchmarks        | High   | S      | 🔴 `TODO`         | `reader.go:35`, `loader/format.go:64`; `BenchmarkDetect` reports ~1.05 MB/op for one ~45-byte line          |
 | 4   | Make `preview()` truncation rune-safe (no mid-rune slice mojibake)                             | Med    | S      | 🔴 `TODO`         | `loader/format.go:116-123` slices at byte 64                                                                |
 | 5   | Add `FuzzDetect` seeded with the new edge cases (null/numeric values, both keys, non-objects)  | Med    | S      | 🔴 `TODO`         | Only `FuzzRead` exists (`fuzz_test.go`); parse path changed in `f5fe7a6`                                    |
@@ -32,7 +32,7 @@ after harvest). Every item re-verified against the code at harvest time.
 | 9   | Systematize README-example compilation (flake app or CI step), not ad-hoc per session          | Med    | S      | 🔴 `TODO`         | Two sessions caught real breakage this way; both depended on someone remembering                            |
 | 10  | Record benchmark baselines + benchstat discipline for perf-touching PRs                        | Med    | S      | 🔴 `TODO`         | `BenchmarkRead`/`BenchmarkDetect` results currently live only in terminal scrollback                        |
 | 11  | Add govulncheck job to CI (app already exists: `nix run .#vulncheck`)                          | Med    | S      | 🔴 `TODO`         | `.github/workflows/ci.yml` has no vulncheck step                                                            |
-| 12  | `dprint.json`: wire into flake (treefmt program or app + CI) or delete it                      | Med    | S      | 🔵 `BLOCKED`      | User decision (tooling preference); ghost config flagged in 3 consecutive sessions                          |
+| 12  | `dprint.json`: wire into flake (treefmt program or app + CI) or delete it                      | Med    | S      | 🔵 `BLOCKED`      | User decision (tooling preference); ghost config flagged in 3 consecutive sessions                           |
 | 13  | CI platform matrix (macOS/arm64) or document linux-only support                                | Low    | S      | 🔵 `BLOCKED`      | User decision; `nix flake check --all-systems` warns about omitted systems                                  |
 | 14  | Decide duplicate-key first-line policy consciously (JSON guess vs `ErrUnknownFormat`)          | Low    | S      | 🔴 `TODO`         | `loader/format.go:87-89` brace-fallback currently classifies duplicate-key lines as JSON                    |
 | 15  | Sentinel-based scan-error wrapping parity: loader wraps raw `bufio.ErrTooLong`, root maps it   | Low    | M      | 🔴 `TODO`         | `loader/format.go:75` vs `reader.go:68-70`                                                                  |

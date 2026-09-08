@@ -21,6 +21,8 @@ Without it, `go build` and `go test` fail with `build constraints exclude all Go
 
 **The flake.nix handles this automatically** — all apps (`nix run .#test`, `nix run .#build`, etc.) and the devShell set `GOEXPERIMENT=jsonv2` for you. If running raw `go` commands outside the flake, you must `export GOEXPERIMENT=jsonv2` first.
 
+**Tool-wrapping apps must also bundle the Go toolchain.** `golangci-lint` and `govulncheck` shell out to whatever `go` is on PATH to load packages — without `go_1_26` in the app's `runtimeInputs`, a foreign Go (e.g. the CI runner's system Go) rejects `GOEXPERIMENT=jsonv2` with `go: unknown GOEXPERIMENT jsonv2`. This exact bug failed the first CI run (2026-09-07). Any new flake app that wraps a Go-analysis tool needs `goPkg` in its `runtimeInputs`.
+
 ## Editor Gotcha: gopls stdversion Warnings
 
 gopls reports `[stdversion] json.Unmarshal requires go1.27 or later (module is go1.26)` warnings on `reader.go` and `loader/format.go`. **These are false positives** under `GOEXPERIMENT=jsonv2` — builds, tests, vet, and lint all pass. Do not "fix" them by changing imports or bumping the go directive.
