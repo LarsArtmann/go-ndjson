@@ -35,8 +35,8 @@ Every item below was verified with a passing gate before being called done.
 ## b) PARTIALLY DONE
 
 1. **CI is written, linted, and locally replicated — but has never executed on a real GitHub runner.** I ran every command the workflow runs, but Nix installation on `ubuntu-latest`, caching behavior, and first-run duration are unverified. The badge I added shows "no status" until the first run.
-2. **HARVEST not run.** TODO_LIST is now correctly empty, but the 40+ forward-looking leads entombed in yesterday's report section (f) are still entombed. I deferred the routing step — which is the standing #1 docs-health failure mode, named as such.
-3. **Yesterday's status report not annotated.** Its section (c) items 1–4 are now DONE by this session, but the file still reads "NOT STARTED". A reader opening it cold is misled. ANNOTATE mode (inline `done at <hash>` markers) is queued, not executed.
+2. ~~**HARVEST not run.** TODO_LIST is now correctly empty, but the 40+ forward-looking leads entombed in yesterday's report section (f) are still entombed. I deferred the routing step — which is the standing #1 docs-health failure mode, named as such.~~ done (docs-health pass 2026-09-08)
+3. ~~**Yesterday's status report not annotated.** Its section (c) items 1–4 are now DONE by this session, but the file still reads "NOT STARTED". A reader opening it cold is misled. ANNOTATE mode (inline `done at <hash>` markers) is queued, not executed.~~ done (docs-health pass 2026-09-08)
 4. **Markdown/YAML formatting of the 6 files I edited is machine-unverified.** `dprint.json` covers exactly these file types and is wired into nothing; the binary isn't installed. Third consecutive session with this known ghost.
 5. **Fuzz coverage of the new Detect parse path: none.** I hardened a parser and pinned it with ~15 hand-picked cases but added no `FuzzDetect` (yesterday's lead #22). The new `map[string]jsontext.Value` path is exactly the kind of code fuzzing is for.
 
@@ -83,11 +83,11 @@ Radical honesty. Nothing here blocks development; all of it deserved to be named
 2. **Rune-safe `preview()`** (truncate on rune boundary, or use `strings.ToValidUTF8` after slicing).
 3. **Add `FuzzDetect`** seeded with all the new edge cases; the parse path changed, so fuzz coverage should change with it.
 4. **Make README-example compilation a flake app or CI step**, not a per-session heroic ad-hoc act. Two sessions in a row it has been the thing that catches real breakage, and both times it depended on someone remembering.
-5. **Run docs-health HARVEST** on this report + yesterday's, routing section (f) items into TODO_LIST/ROADMAP with evidence — then keep TODO_LIST from ever being "empty but for a pointer" again.
-6. **ANNOTATE yesterday's report inline** (its items 1–4 are done; readers of the historical file should see `done at <hash>`, not "NOT STARTED").
+5. ~~**Run docs-health HARVEST** on this report + yesterday's, routing section (f) items into TODO_LIST/ROADMAP with evidence — then keep TODO_LIST from ever being "empty but for a pointer" again.~~ done (docs-health pass 2026-09-08)
+6. ~~**ANNOTATE yesterday's report inline** (its items 1–4 are done; readers of the historical file should see `done at <hash>`, not "NOT STARTED").~~ done (docs-health pass 2026-09-08)
 7. **Record benchmark baselines** (a `docs/benchmarks.md` table or benchstat files) and require benchstat output for perf-touching PRs.
 8. **Resolve the dprint ghost** — wire it into treefmt/flake with CI enforcement, or delete the config. Third session naming it; ghost configs rot.
-9. **Consumer-compat check before cutting v0.0.2** — the breaking Detect changes need either a confirmed-no-consumer verdict or a compat note in the release.
+9. ~~**Consumer-compat check before cutting v0.0.2** — the breaking Detect changes need either a confirmed-no-consumer verdict or a compat note in the release.~~ done (verified 2026-09-08 — samber-do-auditlog wraps Detect errors, go-workflow-auditlog uses Read only; BuildFlow replace builds against local checkout)
 10. **Error-design parity**: loader wraps raw `bufio.ErrTooLong` while root maps it to `ErrOversizedLine`; unify via sentinel wrapping (yesterday's #18) so callers get equal ergonomics in both packages.
 11. **Duplicate-key policy**: make the JSON-guess-vs-error decision consciously (one-line code path either way) instead of leaving a rationalized test pin as the decision record.
 12. **Add `actionlint` as a flake app + CI step** so workflow changes are gated like code.
@@ -139,8 +139,8 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 | #  | Task                                                                                     | Impact | Effort | Category | Home         |
 | -- | ---------------------------------------------------------------------------------------- | ------ | ------ | -------- | ------------ |
-| 25 | ANNOTATE yesterday's 23:01 report (its items 1–4 are now done) inline \*                 | Med    | S      | Process  | This report  |
-| 26 | HARVEST this + yesterday's reports into TODO_LIST/ROADMAP with evidence \*               | High   | S      | Process  | This report  |
+| ~~25~~ | ~~ANNOTATE yesterday's 23:01 report (its items 1–4 are now done) inline \*~~ done (docs-health pass 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Process~~ | ~~This report~~ |
+| ~~26~~ | ~~HARVEST this + yesterday's reports into TODO_LIST/ROADMAP with evidence \*~~ done (docs-health pass 2026-09-08) | ~~High~~ | ~~S~~ | ~~Process~~ | ~~This report~~ |
 | 27 | Create `docs/DOMAIN_LANGUAGE.md` (Report vs Event, `version`, `event_type`)              | Low    | S      | Docs     | Yesterday 26 |
 | 28 | CONTRIBUTING.md: release process section                                                 | Low    | S      | Docs     | Yesterday 27 |
 | 29 | README: "Error handling philosophy" section (sentinels + wrapping + ErrUnknownFormat) \* | Low    | S      | Docs     | Yesterday 28 |

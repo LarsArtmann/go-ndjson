@@ -1,5 +1,7 @@
 # Status Report: Docs-Health Audit — go-ndjson
 
+> **Archived 2026-09-08.** Every actionable item below carries an inline verdict: `done at <hash>`, `done (docs-health pass 2026-09-08)`, an answer, or an `open — tracked in` pointer to TODO_LIST.md / ROADMAP.md (harvested 2026-09-08). Sections (a) and (d) are point-in-time session claims, not action items, and are intentionally unmarked. Section (b) item 2 is a standing caveat, not a task.
+
 **Snapshot:** 2026-09-07 23:01 CEST
 **Scope:** This session's work only — full docs-health AUDIT (BUILD + VERIFY) of `github.com/larsartmann/go-ndjson`. No new research was done for this report.
 **Verdict:** Docs set went from 7.75/10 Accuracy / 8/10 Fitness to healthy. Two must-have docs were missing entirely and the README shipped non-compiling code.
@@ -137,4 +139,4 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 ---
 
-_First status report for this project — no prior baseline. All evidence from session 2026-09-07. Next docs-health HARVEST run should route section (f)._
+_First status report for this project — no prior baseline. All evidence from session 2026-09-07. ~~Next docs-health HARVEST run should route section (f).~~ Routed 2026-09-08: section (f) harvested into TODO_LIST.md / ROADMAP.md and every item annotated inline above._
