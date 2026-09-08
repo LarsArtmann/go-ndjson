@@ -18,6 +18,10 @@ Raw ideas:
 - Context-aware reads so callers can cancel mid-stream
 - `Detect` directly from an `io.Reader` (today it requires the whole payload
   as `[]byte`, forcing callers to buffer just to classify)
+- Combined Detect+Read convenience entry point for the common
+  "classify then parse" flow
+- Configurable `MaxLineBytes` per call (today it is a package-level constant,
+  `reader.go:13`)
 
 ### 2. Symmetric write API
 
@@ -30,6 +34,7 @@ Raw ideas:
 - `Write[T]` serializing a slice to newline-delimited JSON
 - Streaming writer with the same blank-line and size-cap discipline the
   reader enforces
+- Roundtrip property test once a writer exists: `Detect(Write(x)) == NDJSON`
 
 ### 3. Generalized format detection
 
@@ -45,6 +50,19 @@ Raw ideas:
 The ambiguous-input policy is no longer silent: `Detect` classifies by key
 presence and fails with `ErrUnknownFormat` on ambiguous input (decided
 2026-09-07, see `loader/format.go` and `CHANGELOG.md`).
+
+Watch item: track `encoding/json/v2` API evolution as Go 1.27 nears (e.g. a
+returning `RawMessage` could simplify the `map[string]jsontext.Value` probe
+in `loader/format.go:83`).
+
+### 4. Performance tuning (only if profiles justify it)
+
+`BenchmarkRead` (~56 MB/s, ~1 alloc/event) and `BenchmarkDetect` exist, but
+the library has never been profiled in anger. Raw ideas to evaluate only when
+a real caller reports a hotspot:
+
+- Token-based `jsontext` probe in `Detect` (no map allocation)
+- Pre-sizing the result slice in `Read` heuristically
 
 ## Non-goals
 

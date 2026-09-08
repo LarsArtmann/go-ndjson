@@ -18,6 +18,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Loader coverage raised to 100% of statements (was 87.5%), total coverage 98.3%, pinning the `Format.String` default branch and the scanner-error wrap with tests
 - Relaxed the `go` directive from `1.26.4` to `1.26`, so any Go 1.26.x toolchain can build the module
 
+### Fixed
+
+- `nix run .#lint` and `nix run .#vulncheck` now bundle the Go 1.26 toolchain, fixing the first CI run's failure (`go: unknown GOEXPERIMENT jsonv2`) caused by the runner's system Go lacking jsonv2 support
+
+### Security
+
+- GitHub Actions pinned to full commit SHAs (`actions/checkout`, `DeterminateSystems/nix-installer-action`)
+
 ## [0.0.1] - 2026-07-23
 
 ### Added
