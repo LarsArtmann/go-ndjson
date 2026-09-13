@@ -35,17 +35,17 @@
 
 ## Format Detection (loader package)
 
-| Feature                          | Status                | Notes                                                                                                                 |
-| -------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| JSON Report detection            | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:103-105`; key-presence probe (any `"version"` key, incl. empty/null); `TestDetect_KeyPresence`      |
-| NDJSON Event detection           | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:99-101`; key-presence probe; `"event_type"` wins over `"version"` when both present                |
-| Multi-line JSON fallback         | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:87-90`; unparseable first line is a report guess only when it starts with `{`                       |
+| Feature                          | Status                | Notes                                                                                                                        |
+| -------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| JSON Report detection            | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:103-105`; key-presence probe (any `"version"` key, incl. empty/null); `TestDetect_KeyPresence`             |
+| NDJSON Event detection           | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:99-101`; key-presence probe; `"event_type"` wins over `"version"` when both present                        |
+| Multi-line JSON fallback         | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:87-90`; unparseable first line is a report guess only when it starts with `{`                              |
 | Ambiguous input rejection        | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:92-96,107-111`; neither key, non-object, or text fails with `ErrUnknownFormat`; `TestDetect_UnknownFormat` |
-| Blank line skipping before probe | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:66-71`; tested in `TestDetect_BlankLinesBeforeContent`                                              |
-| `ErrNoContent` sentinel          | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:16`; tested in `TestDetect_EmptyInput`                                                              |
-| `ErrUnknownFormat` sentinel      | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:21`; errors carry a truncated line preview; `TestDetect_UnknownFormatErrorPreviewsLine`             |
-| Oversized first line error       | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:73-76`; wraps `bufio.ErrTooLong`; tested in `TestDetect_OversizedLine`                              |
-| `Format.String()` method         | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:36`; tested in `TestFormat_String`                                                                  |
+| Blank line skipping before probe | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:66-71`; tested in `TestDetect_BlankLinesBeforeContent`                                                     |
+| `ErrNoContent` sentinel          | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:16`; tested in `TestDetect_EmptyInput`                                                                     |
+| `ErrUnknownFormat` sentinel      | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:21`; errors carry a truncated line preview; `TestDetect_UnknownFormatErrorPreviewsLine`                    |
+| Oversized first line error       | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:73-76`; wraps `bufio.ErrTooLong`; tested in `TestDetect_OversizedLine`                                     |
+| `Format.String()` method         | 🟢 `FULLY_FUNCTIONAL` | `loader/format.go:36`; tested in `TestFormat_String`                                                                         |
 
 ## Tests & Benchmarks
 
@@ -56,7 +56,7 @@
 
 ## Project Infrastructure
 
-| Feature             | Status                | Notes                                                                             |
-| ------------------- | --------------------- | --------------------------------------------------------------------------------- |
+| Feature             | Status                    | Notes                                                                                                                                                                       |
+| ------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | GitHub Actions CI   | 🟡 `PARTIALLY_FUNCTIONAL` | `.github/workflows/ci.yml`; first run 2026-09-07 failed at lint (system Go rejected `GOEXPERIMENT=jsonv2`); root cause fixed in `flake.nix:109-113`, green run pending push |
-| Flake quality gates | 🟢 `FULLY_FUNCTIONAL` | `flake.nix` apps: test, test-race, build, vet, lint, coverage, vulncheck          |
+| Flake quality gates | 🟢 `FULLY_FUNCTIONAL`     | `flake.nix` apps: test, test-race, build, vet, lint, coverage, vulncheck                                                                                                    |

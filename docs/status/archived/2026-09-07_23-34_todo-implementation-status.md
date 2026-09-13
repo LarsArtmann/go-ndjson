@@ -100,78 +100,78 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 **Ship & infrastructure**
 
-| #  | Task                                                                                 | Impact | Effort | Category | Home         |
-| -- | ------------------------------------------------------------------------------------ | ------ | ------ | -------- | ------------ |
-| ~~1~~  | ~~Push + verify first CI run is green; confirm badge renders~~ open — CI lint root cause fixed in flake.nix 2026-09-08; green run tracked in TODO_LIST.md #1 | ~~High~~ | ~~S~~ | ~~Quality~~ | ~~This report~~ |
-| ~~2~~  | ~~Consumer-compat check for breaking `Detect` change, then cut v0.0.2~~ partially done 2026-09-08 — consumer-compat verified (no compile-time breakage); release cut open — tracked in TODO_LIST.md #2 | ~~High~~ | ~~M~~ | ~~Release~~ | ~~This report~~ |
-| ~~3~~  | ~~Shrink scanner initial buffer 1 MB → 64 KB in `Read` + `Detect`; benchstat verify \*~~ open — tracked in TODO_LIST.md #3 (harvested 2026-09-08) | ~~High~~ | ~~S~~ | ~~Perf~~ | ~~This report~~ |
-| ~~4~~  | ~~Verify pkg.go.dev renders v0.0.2 after tag (proxy propagation)~~ open — tracked in TODO_LIST.md #2 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Release~~ | ~~Yesterday 6~~ |
-| ~~5~~  | ~~Wire `dprint` into flake (treefmt program or app) or delete it~~ open — tracked in TODO_LIST.md #12 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Cleanup~~ | ~~Yesterday 3~~ |
-| ~~6~~  | ~~Add govulncheck job to CI (app already exists)~~ open — tracked in TODO_LIST.md #11 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~Yesterday 4~~ |
-| ~~7~~  | ~~Add `actionlint` flake app + CI step \*~~ open — tracked in TODO_LIST.md #18 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Quality~~ | ~~This report~~ |
-| ~~8~~  | ~~Pin golangci-lint linter set in `.golangci.yml`~~ open — tracked in TODO_LIST.md #19 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Quality~~ | ~~Yesterday 8~~ |
-| ~~9~~  | ~~Dependabot/Renovate for flake.lock bumps~~ open — tracked in TODO_LIST.md #20 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Cleanup~~ | ~~Yesterday 9~~ |
-| ~~10~~ | ~~CI platform matrix (macOS/arm64) or document linux-only support \*~~ open — tracked in TODO_LIST.md #13 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Quality~~ | ~~This report~~ |
-| ~~11~~ | ~~GitHub issue templates (bug/feature)~~ open — tracked in TODO_LIST.md #21 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~Yesterday 10~~ |
-| ~~12~~ | ~~Systematize README-example compilation (flake app or CI step) \*~~ open — tracked in TODO_LIST.md #9 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~Yesterday 32~~ |
-| ~~13~~ | ~~Record benchmark baselines + benchstat discipline for perf PRs \*~~ open — tracked in TODO_LIST.md #10 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Perf~~ | ~~This report~~ |
+| #      | Task                                                                                                                                                                                                   | Impact   | Effort | Category    | Home             |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ------ | ----------- | ---------------- |
+| ~~1~~  | ~~Push + verify first CI run is green; confirm badge renders~~ open — CI lint root cause fixed in flake.nix 2026-09-08; green run tracked in TODO_LIST.md #1                                           | ~~High~~ | ~~S~~  | ~~Quality~~ | ~~This report~~  |
+| ~~2~~  | ~~Consumer-compat check for breaking `Detect` change, then cut v0.0.2~~ partially done 2026-09-08 — consumer-compat verified (no compile-time breakage); release cut open — tracked in TODO_LIST.md #2 | ~~High~~ | ~~M~~  | ~~Release~~ | ~~This report~~  |
+| ~~3~~  | ~~Shrink scanner initial buffer 1 MB → 64 KB in `Read` + `Detect`; benchstat verify \*~~ open — tracked in TODO_LIST.md #3 (harvested 2026-09-08)                                                      | ~~High~~ | ~~S~~  | ~~Perf~~    | ~~This report~~  |
+| ~~4~~  | ~~Verify pkg.go.dev renders v0.0.2 after tag (proxy propagation)~~ open — tracked in TODO_LIST.md #2 (harvested 2026-09-08)                                                                            | ~~Med~~  | ~~S~~  | ~~Release~~ | ~~Yesterday 6~~  |
+| ~~5~~  | ~~Wire `dprint` into flake (treefmt program or app) or delete it~~ open — tracked in TODO_LIST.md #12 (harvested 2026-09-08)                                                                           | ~~Med~~  | ~~S~~  | ~~Cleanup~~ | ~~Yesterday 3~~  |
+| ~~6~~  | ~~Add govulncheck job to CI (app already exists)~~ open — tracked in TODO_LIST.md #11 (harvested 2026-09-08)                                                                                           | ~~Med~~  | ~~S~~  | ~~Quality~~ | ~~Yesterday 4~~  |
+| ~~7~~  | ~~Add `actionlint` flake app + CI step \*~~ open — tracked in TODO_LIST.md #18 (harvested 2026-09-08)                                                                                                  | ~~Low~~  | ~~S~~  | ~~Quality~~ | ~~This report~~  |
+| ~~8~~  | ~~Pin golangci-lint linter set in `.golangci.yml`~~ open — tracked in TODO_LIST.md #19 (harvested 2026-09-08)                                                                                          | ~~Low~~  | ~~S~~  | ~~Quality~~ | ~~Yesterday 8~~  |
+| ~~9~~  | ~~Dependabot/Renovate for flake.lock bumps~~ open — tracked in TODO_LIST.md #20 (harvested 2026-09-08)                                                                                                 | ~~Low~~  | ~~S~~  | ~~Cleanup~~ | ~~Yesterday 9~~  |
+| ~~10~~ | ~~CI platform matrix (macOS/arm64) or document linux-only support \*~~ open — tracked in TODO_LIST.md #13 (harvested 2026-09-08)                                                                       | ~~Low~~  | ~~S~~  | ~~Quality~~ | ~~This report~~  |
+| ~~11~~ | ~~GitHub issue templates (bug/feature)~~ open — tracked in TODO_LIST.md #21 (harvested 2026-09-08)                                                                                                     | ~~Low~~  | ~~S~~  | ~~Docs~~    | ~~Yesterday 10~~ |
+| ~~12~~ | ~~Systematize README-example compilation (flake app or CI step) \*~~ open — tracked in TODO_LIST.md #9 (harvested 2026-09-08)                                                                          | ~~Med~~  | ~~S~~  | ~~Quality~~ | ~~Yesterday 32~~ |
+| ~~13~~ | ~~Record benchmark baselines + benchstat discipline for perf PRs \*~~ open — tracked in TODO_LIST.md #10 (harvested 2026-09-08)                                                                        | ~~Med~~  | ~~S~~  | ~~Perf~~    | ~~This report~~  |
 
 **Correctness & API contract**
 
-| #  | Task                                                                                    | Impact | Effort | Category | Home         |
-| -- | --------------------------------------------------------------------------------------- | ------ | ------ | -------- | ------------ |
-| ~~14~~ | ~~Rune-safe `preview()` truncation \*~~ open — tracked in TODO_LIST.md #4 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Bug~~ | ~~This report~~ |
-| ~~15~~ | ~~Decide duplicate-key line policy consciously (JSON guess vs `ErrUnknownFormat`) \*~~ open — tracked in TODO_LIST.md #14 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Decision~~ | ~~This report~~ |
-| ~~16~~ | ~~Fix `doc.go:24-26` "object" wording vs actual any-JSON-value behavior~~ open — tracked in TODO_LIST.md #7 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Docs~~ | ~~Yesterday 15~~ |
-| ~~17~~ | ~~Wrap validate-callback errors with line number when caller omits it~~ open — tracked in TODO_LIST.md #6 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Feature~~ | ~~Yesterday 16~~ |
-| ~~18~~ | ~~Sentinel-based scan-error wrapping, both packages (incl. loader `ErrTooLong` parity) \*~~ open — tracked in TODO_LIST.md #15 (harvested 2026-09-08) | ~~Low~~ | ~~M~~ | ~~Feature~~ | ~~Yesterday 18~~ |
-| ~~19~~ | ~~Reconsider `FormatAuto` in the success-path API~~ open — tracked in TODO_LIST.md #16 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Cleanup~~ | ~~Yesterday 17~~ |
-| ~~20~~ | ~~CRLF + blank-line + no-trailing-newline combination matrix tests~~ open — tracked in TODO_LIST.md #17 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Quality~~ | ~~Yesterday 19~~ |
-| ~~21~~ | ~~`example_test.go` godoc examples (library convention)~~ open — tracked in TODO_LIST.md #8 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Docs~~ | ~~Yesterday 25~~ |
+| #      | Task                                                                                                                                                  | Impact  | Effort | Category     | Home             |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ------ | ------------ | ---------------- |
+| ~~14~~ | ~~Rune-safe `preview()` truncation \*~~ open — tracked in TODO_LIST.md #4 (harvested 2026-09-08)                                                      | ~~Med~~ | ~~S~~  | ~~Bug~~      | ~~This report~~  |
+| ~~15~~ | ~~Decide duplicate-key line policy consciously (JSON guess vs `ErrUnknownFormat`) \*~~ open — tracked in TODO_LIST.md #14 (harvested 2026-09-08)      | ~~Low~~ | ~~S~~  | ~~Decision~~ | ~~This report~~  |
+| ~~16~~ | ~~Fix `doc.go:24-26` "object" wording vs actual any-JSON-value behavior~~ open — tracked in TODO_LIST.md #7 (harvested 2026-09-08)                    | ~~Med~~ | ~~S~~  | ~~Docs~~     | ~~Yesterday 15~~ |
+| ~~17~~ | ~~Wrap validate-callback errors with line number when caller omits it~~ open — tracked in TODO_LIST.md #6 (harvested 2026-09-08)                      | ~~Med~~ | ~~S~~  | ~~Feature~~  | ~~Yesterday 16~~ |
+| ~~18~~ | ~~Sentinel-based scan-error wrapping, both packages (incl. loader `ErrTooLong` parity) \*~~ open — tracked in TODO_LIST.md #15 (harvested 2026-09-08) | ~~Low~~ | ~~M~~  | ~~Feature~~  | ~~Yesterday 18~~ |
+| ~~19~~ | ~~Reconsider `FormatAuto` in the success-path API~~ open — tracked in TODO_LIST.md #16 (harvested 2026-09-08)                                         | ~~Low~~ | ~~S~~  | ~~Cleanup~~  | ~~Yesterday 17~~ |
+| ~~20~~ | ~~CRLF + blank-line + no-trailing-newline combination matrix tests~~ open — tracked in TODO_LIST.md #17 (harvested 2026-09-08)                        | ~~Low~~ | ~~S~~  | ~~Quality~~  | ~~Yesterday 19~~ |
+| ~~21~~ | ~~`example_test.go` godoc examples (library convention)~~ open — tracked in TODO_LIST.md #8 (harvested 2026-09-08)                                    | ~~Med~~ | ~~S~~  | ~~Docs~~     | ~~Yesterday 25~~ |
 
 **Testing**
 
-| #  | Task                                                              | Impact | Effort | Category | Home         |
-| -- | ----------------------------------------------------------------- | ------ | ------ | -------- | ------------ |
-| ~~22~~ | ~~Add `FuzzDetect` seeded with the new edge cases \*~~ open — tracked in TODO_LIST.md #5 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~Yesterday 22~~ |
-| ~~23~~ | ~~`-cpu` benchmark sweep + benchstat CI regression check \*~~ open — tracked in TODO_LIST.md #27 (harvested 2026-09-08) | ~~Low~~ | ~~M~~ | ~~Perf~~ | ~~This report~~ |
-| ~~24~~ | ~~Roundtrip property test: `Detect(Write(x)) == NDJSON` (needs #36)~~ open — tracked in ROADMAP.md theme 2 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Quality~~ | ~~Yesterday 24~~ |
+| #      | Task                                                                                                                              | Impact  | Effort | Category    | Home             |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------- | ------- | ------ | ----------- | ---------------- |
+| ~~22~~ | ~~Add `FuzzDetect` seeded with the new edge cases \*~~ open — tracked in TODO_LIST.md #5 (harvested 2026-09-08)                   | ~~Med~~ | ~~S~~  | ~~Quality~~ | ~~Yesterday 22~~ |
+| ~~23~~ | ~~`-cpu` benchmark sweep + benchstat CI regression check \*~~ open — tracked in TODO_LIST.md #27 (harvested 2026-09-08)           | ~~Low~~ | ~~M~~  | ~~Perf~~    | ~~This report~~  |
+| ~~24~~ | ~~Roundtrip property test: `Detect(Write(x)) == NDJSON` (needs #36)~~ open — tracked in ROADMAP.md theme 2 (harvested 2026-09-08) | ~~Low~~ | ~~S~~  | ~~Quality~~ | ~~Yesterday 24~~ |
 
 **Docs**
 
-| #  | Task                                                                                     | Impact | Effort | Category | Home         |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | -------- | ------------ |
-| ~~25~~ | ~~ANNOTATE yesterday's 23:01 report (its items 1–4 are now done) inline \*~~ done (docs-health pass 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Process~~ | ~~This report~~ |
-| ~~26~~ | ~~HARVEST this + yesterday's reports into TODO_LIST/ROADMAP with evidence \*~~ done (docs-health pass 2026-09-08) | ~~High~~ | ~~S~~ | ~~Process~~ | ~~This report~~ |
-| ~~27~~ | ~~Create `docs/DOMAIN_LANGUAGE.md` (Report vs Event, `version`, `event_type`)~~ open — tracked in TODO_LIST.md #22 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~Yesterday 26~~ |
-| ~~28~~ | ~~CONTRIBUTING.md: release process section~~ open — tracked in TODO_LIST.md #23 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~Yesterday 27~~ |
-| ~~29~~ | ~~README: "Error handling philosophy" section (sentinels + wrapping + ErrUnknownFormat) \*~~ open — tracked in TODO_LIST.md #24 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~Yesterday 28~~ |
-| ~~30~~ | ~~README: state the 1 MB line cap in quick-start prose~~ open — tracked in TODO_LIST.md #24 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~Yesterday 29~~ |
-| ~~31~~ | ~~CHANGELOG: add keep-a-changelog compare links footer~~ open — tracked in TODO_LIST.md #25 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~Yesterday 30~~ |
-| ~~32~~ | ~~AGENTS.md: revisit gopls gotcha after Go 1.27 ships~~ open — tracked in TODO_LIST.md #26 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~Yesterday 31~~ |
+| #      | Task                                                                                                                                                   | Impact   | Effort | Category    | Home             |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ------ | ----------- | ---------------- |
+| ~~25~~ | ~~ANNOTATE yesterday's 23:01 report (its items 1–4 are now done) inline \*~~ done (docs-health pass 2026-09-08)                                        | ~~Med~~  | ~~S~~  | ~~Process~~ | ~~This report~~  |
+| ~~26~~ | ~~HARVEST this + yesterday's reports into TODO_LIST/ROADMAP with evidence \*~~ done (docs-health pass 2026-09-08)                                      | ~~High~~ | ~~S~~  | ~~Process~~ | ~~This report~~  |
+| ~~27~~ | ~~Create `docs/DOMAIN_LANGUAGE.md` (Report vs Event, `version`, `event_type`)~~ open — tracked in TODO_LIST.md #22 (harvested 2026-09-08)              | ~~Low~~  | ~~S~~  | ~~Docs~~    | ~~Yesterday 26~~ |
+| ~~28~~ | ~~CONTRIBUTING.md: release process section~~ open — tracked in TODO_LIST.md #23 (harvested 2026-09-08)                                                 | ~~Low~~  | ~~S~~  | ~~Docs~~    | ~~Yesterday 27~~ |
+| ~~29~~ | ~~README: "Error handling philosophy" section (sentinels + wrapping + ErrUnknownFormat) \*~~ open — tracked in TODO_LIST.md #24 (harvested 2026-09-08) | ~~Low~~  | ~~S~~  | ~~Docs~~    | ~~Yesterday 28~~ |
+| ~~30~~ | ~~README: state the 1 MB line cap in quick-start prose~~ open — tracked in TODO_LIST.md #24 (harvested 2026-09-08)                                     | ~~Low~~  | ~~S~~  | ~~Docs~~    | ~~Yesterday 29~~ |
+| ~~31~~ | ~~CHANGELOG: add keep-a-changelog compare links footer~~ open — tracked in TODO_LIST.md #25 (harvested 2026-09-08)                                     | ~~Low~~  | ~~S~~  | ~~Docs~~    | ~~Yesterday 30~~ |
+| ~~32~~ | ~~AGENTS.md: revisit gopls gotcha after Go 1.27 ships~~ open — tracked in TODO_LIST.md #26 (harvested 2026-09-08)                                      | ~~Low~~  | ~~S~~  | ~~Docs~~    | ~~Yesterday 31~~ |
 
 **Design ideas (ROADMAP fuel — unrefined by design)**
 
-| #  | Task                                                                               | Impact | Effort | Category | Home         |
-| -- | ---------------------------------------------------------------------------------- | ------ | ------ | -------- | ------------ |
-| ~~33~~ | ~~Streaming read via `iter.Seq2[T, error]` (don't materialize `[]T`)~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08) | ~~High~~ | ~~L~~ | ~~Feature~~ | ~~Yesterday 33~~ |
-| ~~34~~ | ~~`Write[T]` NDJSON writer counterpart~~ open — tracked in ROADMAP.md theme 2 (harvested 2026-09-08) | ~~Med~~ | ~~M~~ | ~~Feature~~ | ~~Yesterday 34~~ |
-| ~~35~~ | ~~`Detect` from `io.Reader` without full buffering~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08) | ~~Med~~ | ~~M~~ | ~~Feature~~ | ~~Yesterday 35~~ |
-| ~~36~~ | ~~Configurable/pluggable detection probe keys (decouple audit-log vocab)~~ open — tracked in ROADMAP.md theme 3 (harvested 2026-09-08) | ~~Med~~ | ~~L~~ | ~~Feature~~ | ~~Yesterday 36~~ |
-| ~~37~~ | ~~`ReadContext` for cancellation mid-stream~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08) | ~~Low~~ | ~~M~~ | ~~Feature~~ | ~~Yesterday 37~~ |
-| ~~38~~ | ~~Combined Detect+Read convenience entry point~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08) | ~~Low~~ | ~~M~~ | ~~Feature~~ | ~~Yesterday 38~~ |
-| ~~39~~ | ~~Configurable `MaxLineBytes` per call (currently package const only)~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Feature~~ | ~~Yesterday 39~~ |
-| ~~40~~ | ~~Sampling more than first non-blank line for detection confidence~~ open — tracked in ROADMAP.md theme 3 (harvested 2026-09-08) | ~~Low~~ | ~~M~~ | ~~Feature~~ | ~~Yesterday 40~~ |
-| ~~41~~ | ~~Token-based `jsontext` probe (no map alloc) if Detect ever shows up in profiles \*~~ open — tracked in ROADMAP.md theme 4 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Perf~~ | ~~This report~~ |
-| ~~42~~ | ~~Pre-size the result slice heuristically in `Read` (allocs/event ≈ 1 today) \*~~ open — tracked in ROADMAP.md theme 4 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Perf~~ | ~~This report~~ |
+| #      | Task                                                                                                                                               | Impact   | Effort | Category    | Home             |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------ | ----------- | ---------------- |
+| ~~33~~ | ~~Streaming read via `iter.Seq2[T, error]` (don't materialize `[]T`)~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08)                 | ~~High~~ | ~~L~~  | ~~Feature~~ | ~~Yesterday 33~~ |
+| ~~34~~ | ~~`Write[T]` NDJSON writer counterpart~~ open — tracked in ROADMAP.md theme 2 (harvested 2026-09-08)                                               | ~~Med~~  | ~~M~~  | ~~Feature~~ | ~~Yesterday 34~~ |
+| ~~35~~ | ~~`Detect` from `io.Reader` without full buffering~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08)                                   | ~~Med~~  | ~~M~~  | ~~Feature~~ | ~~Yesterday 35~~ |
+| ~~36~~ | ~~Configurable/pluggable detection probe keys (decouple audit-log vocab)~~ open — tracked in ROADMAP.md theme 3 (harvested 2026-09-08)             | ~~Med~~  | ~~L~~  | ~~Feature~~ | ~~Yesterday 36~~ |
+| ~~37~~ | ~~`ReadContext` for cancellation mid-stream~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08)                                          | ~~Low~~  | ~~M~~  | ~~Feature~~ | ~~Yesterday 37~~ |
+| ~~38~~ | ~~Combined Detect+Read convenience entry point~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08)                                       | ~~Low~~  | ~~M~~  | ~~Feature~~ | ~~Yesterday 38~~ |
+| ~~39~~ | ~~Configurable `MaxLineBytes` per call (currently package const only)~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08)                | ~~Low~~  | ~~S~~  | ~~Feature~~ | ~~Yesterday 39~~ |
+| ~~40~~ | ~~Sampling more than first non-blank line for detection confidence~~ open — tracked in ROADMAP.md theme 3 (harvested 2026-09-08)                   | ~~Low~~  | ~~M~~  | ~~Feature~~ | ~~Yesterday 40~~ |
+| ~~41~~ | ~~Token-based `jsontext` probe (no map alloc) if Detect ever shows up in profiles \*~~ open — tracked in ROADMAP.md theme 4 (harvested 2026-09-08) | ~~Low~~  | ~~S~~  | ~~Perf~~    | ~~This report~~  |
+| ~~42~~ | ~~Pre-size the result slice heuristically in `Read` (allocs/event ≈ 1 today) \*~~ open — tracked in ROADMAP.md theme 4 (harvested 2026-09-08)      | ~~Low~~  | ~~S~~  | ~~Perf~~    | ~~This report~~  |
 
 **Process**
 
-| #  | Task                                                                                   | Impact | Effort | Category | Home        |
-| -- | -------------------------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| ~~43~~ | ~~Stop relying on the auto-commit daemon for meaningful boundaries \*~~ closed 2026-09-08 — working-habit note, not a repo task | ~~Low~~ | ~~S~~ | ~~Process~~ | ~~This report~~ |
-| ~~44~~ | ~~Decide `### Breaking` vs bold-marker convention in CHANGELOG \*~~ open — tracked in TODO_LIST.md #25 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~This report~~ |
-| ~~45~~ | ~~Track jsonv2 API evolution (`RawMessage` may return; revisit probe when 1.27 nears) \*~~ done — added to ROADMAP.md theme 3 watch item 2026-09-08 | ~~Low~~ | ~~S~~ | ~~Research~~ | ~~This report~~ |
+| #      | Task                                                                                                                                                | Impact  | Effort | Category     | Home            |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ------ | ------------ | --------------- |
+| ~~43~~ | ~~Stop relying on the auto-commit daemon for meaningful boundaries \*~~ closed 2026-09-08 — working-habit note, not a repo task                     | ~~Low~~ | ~~S~~  | ~~Process~~  | ~~This report~~ |
+| ~~44~~ | ~~Decide `### Breaking` vs bold-marker convention in CHANGELOG \*~~ open — tracked in TODO_LIST.md #25 (harvested 2026-09-08)                       | ~~Low~~ | ~~S~~  | ~~Docs~~     | ~~This report~~ |
+| ~~45~~ | ~~Track jsonv2 API evolution (`RawMessage` may return; revisit probe when 1.27 nears) \*~~ done — added to ROADMAP.md theme 3 watch item 2026-09-08 | ~~Low~~ | ~~S~~  | ~~Research~~ | ~~This report~~ |
 
 (\* = new this session. Yesterday's #1 CI, #5 lint/vet-in-CI, #7 badge, #11–14 Detect hardening, #20–21 coverage, #23 benchmarks are DONE — see CHANGELOG and section (a).)
 

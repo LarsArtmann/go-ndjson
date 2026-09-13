@@ -64,68 +64,68 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 **Ship & infrastructure**
 
-| #  | Task                                                                  | Impact | Effort | Category | Home        |
-| -- | --------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| ~~1~~  | ~~Add GitHub Actions CI running `nix flake check` + `nix run .#test`~~ done at `5e98073` | ~~High~~ | ~~M~~ | ~~Quality~~ | ~~TODO_LIST ✓~~ |
-| ~~2~~  | ~~Cut v0.0.2 (Unreleased now non-empty; relaxes toolchain constraint)~~ open — tracked in TODO_LIST.md #2 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Release~~ | ~~TODO_LIST~~ |
-| ~~3~~  | ~~Wire dprint into flake (treefmt program or devShell app)~~ open — tracked in TODO_LIST.md #12 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Cleanup~~ | ~~TODO_LIST~~ |
-| ~~4~~  | ~~Add govulncheck job to CI (app already exists: `nix run .#vulncheck`)~~ open — tracked in TODO_LIST.md #11 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST~~ |
-| ~~5~~  | ~~Add `nix run .#lint` + `.#vet` to CI matrix, not just test~~ done at `5e98073` | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST~~ |
-| ~~6~~  | ~~Verify pkg.go.dev renders v0.0.2 after tag (proxy propagation)~~ open — tracked in TODO_LIST.md #2 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Release~~ | ~~TODO_LIST~~ |
-| ~~7~~  | ~~Add README CI badge once CI exists~~ done at `5e98073` | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
-| ~~8~~  | ~~Pin golangci-lint linter set in `.golangci.yml` (currently defaults)~~ open — tracked in TODO_LIST.md #19 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST~~ |
-| ~~9~~  | ~~Dependabot/Renovate or documented cadence for flake.lock bumps~~ open — tracked in TODO_LIST.md #20 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Cleanup~~ | ~~TODO_LIST~~ |
-| ~~10~~ | ~~Add GitHub issue templates (bug/feature)~~ open — tracked in TODO_LIST.md #21 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
+| #      | Task                                                                                                                                | Impact   | Effort | Category    | Home            |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------- | -------- | ------ | ----------- | --------------- |
+| ~~1~~  | ~~Add GitHub Actions CI running `nix flake check` + `nix run .#test`~~ done at `5e98073`                                            | ~~High~~ | ~~M~~  | ~~Quality~~ | ~~TODO_LIST ✓~~ |
+| ~~2~~  | ~~Cut v0.0.2 (Unreleased now non-empty; relaxes toolchain constraint)~~ open — tracked in TODO_LIST.md #2 (harvested 2026-09-08)    | ~~Med~~  | ~~S~~  | ~~Release~~ | ~~TODO_LIST~~   |
+| ~~3~~  | ~~Wire dprint into flake (treefmt program or devShell app)~~ open — tracked in TODO_LIST.md #12 (harvested 2026-09-08)              | ~~Med~~  | ~~S~~  | ~~Cleanup~~ | ~~TODO_LIST~~   |
+| ~~4~~  | ~~Add govulncheck job to CI (app already exists: `nix run .#vulncheck`)~~ open — tracked in TODO_LIST.md #11 (harvested 2026-09-08) | ~~Med~~  | ~~S~~  | ~~Quality~~ | ~~TODO_LIST~~   |
+| ~~5~~  | ~~Add `nix run .#lint` + `.#vet` to CI matrix, not just test~~ done at `5e98073`                                                    | ~~Med~~  | ~~S~~  | ~~Quality~~ | ~~TODO_LIST~~   |
+| ~~6~~  | ~~Verify pkg.go.dev renders v0.0.2 after tag (proxy propagation)~~ open — tracked in TODO_LIST.md #2 (harvested 2026-09-08)         | ~~Low~~  | ~~S~~  | ~~Release~~ | ~~TODO_LIST~~   |
+| ~~7~~  | ~~Add README CI badge once CI exists~~ done at `5e98073`                                                                            | ~~Low~~  | ~~S~~  | ~~Docs~~    | ~~TODO_LIST~~   |
+| ~~8~~  | ~~Pin golangci-lint linter set in `.golangci.yml` (currently defaults)~~ open — tracked in TODO_LIST.md #19 (harvested 2026-09-08)  | ~~Low~~  | ~~S~~  | ~~Quality~~ | ~~TODO_LIST~~   |
+| ~~9~~  | ~~Dependabot/Renovate or documented cadence for flake.lock bumps~~ open — tracked in TODO_LIST.md #20 (harvested 2026-09-08)        | ~~Low~~  | ~~S~~  | ~~Cleanup~~ | ~~TODO_LIST~~   |
+| ~~10~~ | ~~Add GitHub issue templates (bug/feature)~~ open — tracked in TODO_LIST.md #21 (harvested 2026-09-08)                              | ~~Low~~  | ~~S~~  | ~~Docs~~    | ~~TODO_LIST~~   |
 
 **Correctness & API contract**
 
-| #  | Task                                                                                  | Impact | Effort | Category | Home        |
-| -- | ------------------------------------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| ~~11~~ | ~~Switch `Detect` probes from non-empty-value to key-presence checking~~ done at `f5fe7a6` | ~~High~~ | ~~M~~ | ~~Bug~~ | ~~TODO_LIST ✓~~ |
-| ~~12~~ | ~~Decide + test the neither-key default (currently silent NDJSON, format.go:90)~~ done at `f5fe7a6`, `b18e17a` | ~~High~~ | ~~S~~ | ~~Bug~~ | ~~TODO_LIST ✓~~ |
-| ~~13~~ | ~~Decide + test malformed-first-line → JSON fallback (format.go:78)~~ done at `f5fe7a6`, `b18e17a` | ~~High~~ | ~~S~~ | ~~Bug~~ | ~~TODO_LIST ✓~~ |
-| ~~14~~ | ~~Test/document numeric `"version"` behavior (json/v2 unmarshal error → JSON branch)~~ done at `b18e17a` | ~~Med~~ | ~~S~~ | ~~Bug~~ | ~~TODO_LIST~~ |
-| ~~15~~ | ~~Fix doc.go:24-26 "object" wording vs actual any-JSON-value behavior~~ open — tracked in TODO_LIST.md #7 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
-| ~~16~~ | ~~Wrap validate-callback errors with line number when caller omits it (reader.go:58-60)~~ open — tracked in TODO_LIST.md #6 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Feature~~ | ~~TODO_LIST~~ |
-| ~~17~~ | ~~Reconsider `FormatAuto` in the success-path API (only ever returned alongside error)~~ open — tracked in TODO_LIST.md #16 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Cleanup~~ | ~~TODO_LIST~~ |
-| ~~18~~ | ~~Distinguish parse errors from scan errors via sentinel wrapping~~ open — tracked in TODO_LIST.md #15 (harvested 2026-09-08) | ~~Low~~ | ~~M~~ | ~~Feature~~ | ~~ROADMAP~~ |
-| ~~19~~ | ~~Test CRLF + blank-line + no-trailing-newline combination matrix~~ open — tracked in TODO_LIST.md #17 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST~~ |
+| #      | Task                                                                                                                                               | Impact   | Effort | Category    | Home            |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------ | ----------- | --------------- |
+| ~~11~~ | ~~Switch `Detect` probes from non-empty-value to key-presence checking~~ done at `f5fe7a6`                                                         | ~~High~~ | ~~M~~  | ~~Bug~~     | ~~TODO_LIST ✓~~ |
+| ~~12~~ | ~~Decide + test the neither-key default (currently silent NDJSON, format.go:90)~~ done at `f5fe7a6`, `b18e17a`                                     | ~~High~~ | ~~S~~  | ~~Bug~~     | ~~TODO_LIST ✓~~ |
+| ~~13~~ | ~~Decide + test malformed-first-line → JSON fallback (format.go:78)~~ done at `f5fe7a6`, `b18e17a`                                                 | ~~High~~ | ~~S~~  | ~~Bug~~     | ~~TODO_LIST ✓~~ |
+| ~~14~~ | ~~Test/document numeric `"version"` behavior (json/v2 unmarshal error → JSON branch)~~ done at `b18e17a`                                           | ~~Med~~  | ~~S~~  | ~~Bug~~     | ~~TODO_LIST~~   |
+| ~~15~~ | ~~Fix doc.go:24-26 "object" wording vs actual any-JSON-value behavior~~ open — tracked in TODO_LIST.md #7 (harvested 2026-09-08)                   | ~~Med~~  | ~~S~~  | ~~Docs~~    | ~~TODO_LIST~~   |
+| ~~16~~ | ~~Wrap validate-callback errors with line number when caller omits it (reader.go:58-60)~~ open — tracked in TODO_LIST.md #6 (harvested 2026-09-08) | ~~Med~~  | ~~S~~  | ~~Feature~~ | ~~TODO_LIST~~   |
+| ~~17~~ | ~~Reconsider `FormatAuto` in the success-path API (only ever returned alongside error)~~ open — tracked in TODO_LIST.md #16 (harvested 2026-09-08) | ~~Low~~  | ~~S~~  | ~~Cleanup~~ | ~~TODO_LIST~~   |
+| ~~18~~ | ~~Distinguish parse errors from scan errors via sentinel wrapping~~ open — tracked in TODO_LIST.md #15 (harvested 2026-09-08)                      | ~~Low~~  | ~~M~~  | ~~Feature~~ | ~~ROADMAP~~     |
+| ~~19~~ | ~~Test CRLF + blank-line + no-trailing-newline combination matrix~~ open — tracked in TODO_LIST.md #17 (harvested 2026-09-08)                      | ~~Low~~  | ~~S~~  | ~~Quality~~ | ~~TODO_LIST~~   |
 
 **Testing**
 
-| #  | Task                                                     | Impact | Effort | Category | Home        |
-| -- | -------------------------------------------------------- | ------ | ------ | -------- | ----------- |
-| ~~20~~ | ~~Cover `Format.String` default branch (format.go:38-39)~~ done at `b18e17a` | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST ✓~~ |
-| ~~21~~ | ~~Cover loader scanner-error wrap (format.go:61-63)~~ done at `b18e17a` | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST ✓~~ |
-| ~~22~~ | ~~Add `FuzzDetect` (fuzzing covers only `Read` today)~~ open — tracked in TODO_LIST.md #5 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST~~ |
-| ~~23~~ | ~~Add `BenchmarkRead` + `BenchmarkDetect`~~ done at `b18e17a` | ~~Low~~ | ~~S~~ | ~~Quality~~ | ~~TODO_LIST ✓~~ |
-| ~~24~~ | ~~Roundtrip property test: `Detect(Write(x)) == NDJSON`~~ open — tracked in ROADMAP.md theme 2 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Quality~~ | ~~ROADMAP~~ |
-| ~~25~~ | ~~`example_test.go` godoc examples (Go library convention)~~ open — tracked in TODO_LIST.md #8 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
+| #      | Task                                                                                                                  | Impact  | Effort | Category    | Home            |
+| ------ | --------------------------------------------------------------------------------------------------------------------- | ------- | ------ | ----------- | --------------- |
+| ~~20~~ | ~~Cover `Format.String` default branch (format.go:38-39)~~ done at `b18e17a`                                          | ~~Med~~ | ~~S~~  | ~~Quality~~ | ~~TODO_LIST ✓~~ |
+| ~~21~~ | ~~Cover loader scanner-error wrap (format.go:61-63)~~ done at `b18e17a`                                               | ~~Med~~ | ~~S~~  | ~~Quality~~ | ~~TODO_LIST ✓~~ |
+| ~~22~~ | ~~Add `FuzzDetect` (fuzzing covers only `Read` today)~~ open — tracked in TODO_LIST.md #5 (harvested 2026-09-08)      | ~~Med~~ | ~~S~~  | ~~Quality~~ | ~~TODO_LIST~~   |
+| ~~23~~ | ~~Add `BenchmarkRead` + `BenchmarkDetect`~~ done at `b18e17a`                                                         | ~~Low~~ | ~~S~~  | ~~Quality~~ | ~~TODO_LIST ✓~~ |
+| ~~24~~ | ~~Roundtrip property test: `Detect(Write(x)) == NDJSON`~~ open — tracked in ROADMAP.md theme 2 (harvested 2026-09-08) | ~~Low~~ | ~~S~~  | ~~Quality~~ | ~~ROADMAP~~     |
+| ~~25~~ | ~~`example_test.go` godoc examples (Go library convention)~~ open — tracked in TODO_LIST.md #8 (harvested 2026-09-08) | ~~Med~~ | ~~S~~  | ~~Docs~~    | ~~TODO_LIST~~   |
 
 **Docs**
 
-| #  | Task                                                                                        | Impact | Effort | Category | Home      |
-| -- | ------------------------------------------------------------------------------------------- | ------ | ------ | -------- | --------- |
-| ~~26~~ | ~~Create `docs/DOMAIN_LANGUAGE.md` (Report vs Event, `version`, `event_type`)~~ open — tracked in TODO_LIST.md #22 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
-| ~~27~~ | ~~CONTRIBUTING.md: add release process section~~ open — tracked in TODO_LIST.md #23 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
-| ~~28~~ | ~~README: "Error handling philosophy" short section (sentinels + wrapping)~~ open — tracked in TODO_LIST.md #24 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
-| ~~29~~ | ~~README: state the 1 MB line cap in the quick-start prose (currently only in errors section)~~ open — tracked in TODO_LIST.md #24 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
-| ~~30~~ | ~~CHANGELOG: add keep-a-changelog compare links footer~~ open — tracked in TODO_LIST.md #25 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
-| ~~31~~ | ~~AGENTS.md: revisit gopls gotcha after Go 1.27 ships (will become stale)~~ open — tracked in TODO_LIST.md #26 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Docs~~ | ~~TODO_LIST~~ |
-| ~~32~~ | ~~Make "compile every README example" a standing audit step (skill/AGENTS note)~~ open — tracked in TODO_LIST.md #9 (harvested 2026-09-08) | ~~Med~~ | ~~S~~ | ~~Process~~ | ~~TODO_LIST~~ |
+| #      | Task                                                                                                                                                      | Impact  | Effort | Category    | Home          |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ------ | ----------- | ------------- |
+| ~~26~~ | ~~Create `docs/DOMAIN_LANGUAGE.md` (Report vs Event, `version`, `event_type`)~~ open — tracked in TODO_LIST.md #22 (harvested 2026-09-08)                 | ~~Low~~ | ~~S~~  | ~~Docs~~    | ~~TODO_LIST~~ |
+| ~~27~~ | ~~CONTRIBUTING.md: add release process section~~ open — tracked in TODO_LIST.md #23 (harvested 2026-09-08)                                                | ~~Low~~ | ~~S~~  | ~~Docs~~    | ~~TODO_LIST~~ |
+| ~~28~~ | ~~README: "Error handling philosophy" short section (sentinels + wrapping)~~ open — tracked in TODO_LIST.md #24 (harvested 2026-09-08)                    | ~~Low~~ | ~~S~~  | ~~Docs~~    | ~~TODO_LIST~~ |
+| ~~29~~ | ~~README: state the 1 MB line cap in the quick-start prose (currently only in errors section)~~ open — tracked in TODO_LIST.md #24 (harvested 2026-09-08) | ~~Low~~ | ~~S~~  | ~~Docs~~    | ~~TODO_LIST~~ |
+| ~~30~~ | ~~CHANGELOG: add keep-a-changelog compare links footer~~ open — tracked in TODO_LIST.md #25 (harvested 2026-09-08)                                        | ~~Low~~ | ~~S~~  | ~~Docs~~    | ~~TODO_LIST~~ |
+| ~~31~~ | ~~AGENTS.md: revisit gopls gotcha after Go 1.27 ships (will become stale)~~ open — tracked in TODO_LIST.md #26 (harvested 2026-09-08)                     | ~~Low~~ | ~~S~~  | ~~Docs~~    | ~~TODO_LIST~~ |
+| ~~32~~ | ~~Make "compile every README example" a standing audit step (skill/AGENTS note)~~ open — tracked in TODO_LIST.md #9 (harvested 2026-09-08)                | ~~Med~~ | ~~S~~  | ~~Process~~ | ~~TODO_LIST~~ |
 
 **Design ideas (ROADMAP fuel — unrefined by design)**
 
-| #  | Task                                                                   | Impact | Effort | Category | Home      |
-| -- | ---------------------------------------------------------------------- | ------ | ------ | -------- | --------- |
-| ~~33~~ | ~~Streaming read via `iter.Seq2[T, error]` (don't materialize `[]T`)~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08) | ~~High~~ | ~~L~~ | ~~Feature~~ | ~~ROADMAP ✓~~ |
-| ~~34~~ | ~~`Write[T]` NDJSON writer counterpart~~ open — tracked in ROADMAP.md theme 2 (harvested 2026-09-08) | ~~Med~~ | ~~M~~ | ~~Feature~~ | ~~ROADMAP ✓~~ |
-| ~~35~~ | ~~`Detect` from `io.Reader` without full buffering~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08) | ~~Med~~ | ~~M~~ | ~~Feature~~ | ~~ROADMAP ✓~~ |
-| ~~36~~ | ~~Configurable/pluggable detection probe keys (decouple audit-log vocab)~~ open — tracked in ROADMAP.md theme 3 (harvested 2026-09-08) | ~~Med~~ | ~~L~~ | ~~Feature~~ | ~~ROADMAP ✓~~ |
-| ~~37~~ | ~~`ReadContext` for cancellation mid-stream~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08) | ~~Low~~ | ~~M~~ | ~~Feature~~ | ~~ROADMAP ✓~~ |
-| ~~38~~ | ~~Combined Detect+Read convenience entry point~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08) | ~~Low~~ | ~~M~~ | ~~Feature~~ | ~~ROADMAP~~ |
-| ~~39~~ | ~~Configurable `MaxLineBytes` per call (currently package const only)~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08) | ~~Low~~ | ~~S~~ | ~~Feature~~ | ~~ROADMAP~~ |
-| ~~40~~ | ~~Sampling more than first non-blank line for detection confidence~~ open — tracked in ROADMAP.md theme 3 (harvested 2026-09-08) | ~~Low~~ | ~~M~~ | ~~Feature~~ | ~~ROADMAP ✓~~ |
+| #      | Task                                                                                                                                   | Impact   | Effort | Category    | Home          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------ | ----------- | ------------- |
+| ~~33~~ | ~~Streaming read via `iter.Seq2[T, error]` (don't materialize `[]T`)~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08)     | ~~High~~ | ~~L~~  | ~~Feature~~ | ~~ROADMAP ✓~~ |
+| ~~34~~ | ~~`Write[T]` NDJSON writer counterpart~~ open — tracked in ROADMAP.md theme 2 (harvested 2026-09-08)                                   | ~~Med~~  | ~~M~~  | ~~Feature~~ | ~~ROADMAP ✓~~ |
+| ~~35~~ | ~~`Detect` from `io.Reader` without full buffering~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08)                       | ~~Med~~  | ~~M~~  | ~~Feature~~ | ~~ROADMAP ✓~~ |
+| ~~36~~ | ~~Configurable/pluggable detection probe keys (decouple audit-log vocab)~~ open — tracked in ROADMAP.md theme 3 (harvested 2026-09-08) | ~~Med~~  | ~~L~~  | ~~Feature~~ | ~~ROADMAP ✓~~ |
+| ~~37~~ | ~~`ReadContext` for cancellation mid-stream~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08)                              | ~~Low~~  | ~~M~~  | ~~Feature~~ | ~~ROADMAP ✓~~ |
+| ~~38~~ | ~~Combined Detect+Read convenience entry point~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08)                           | ~~Low~~  | ~~M~~  | ~~Feature~~ | ~~ROADMAP~~   |
+| ~~39~~ | ~~Configurable `MaxLineBytes` per call (currently package const only)~~ open — tracked in ROADMAP.md theme 1 (harvested 2026-09-08)    | ~~Low~~  | ~~S~~  | ~~Feature~~ | ~~ROADMAP~~   |
+| ~~40~~ | ~~Sampling more than first non-blank line for detection confidence~~ open — tracked in ROADMAP.md theme 3 (harvested 2026-09-08)       | ~~Low~~  | ~~M~~  | ~~Feature~~ | ~~ROADMAP ✓~~ |
 
 (\✓ = already placed in TODO_LIST.md / ROADMAP.md this session. Items without ✓ are new leads from this report and need HARVEST routing before they count as tracked.)
 

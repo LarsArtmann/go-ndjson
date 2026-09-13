@@ -10,7 +10,7 @@
 
 Every item below was verified with a passing gate or direct evidence before being called done.
 
-1. **Viewed ALL 2026-0* files** (both `docs/status/2026-09-07_*` reports, full read) — plus every living doc (README, AGENTS, FEATURES, TODO_LIST, ROADMAP, CHANGELOG), all source (`reader.go`, `loader/format.go`, both `doc.go`), tests, `flake.nix`, `go.mod`.
+1. __Viewed ALL 2026-0_ files_* (both `docs/status/2026-09-07_*` reports, full read) — plus every living doc (README, AGENTS, FEATURES, TODO_LIST, ROADMAP, CHANGELOG), all source (`reader.go`, `loader/format.go`, both `doc.go`), tests, `flake.nix`, `go.mod`.
 2. **Quality gates green at session end**: `nix flake check` ✅ (incl. treefmt), `.#test` ✅, `.#lint` 0 issues ✅, `.#vet` ✅, `.#build` ✅.
 3. **Discovered CI was RED and fixed the root cause.** First CI run (34164466743, 2026-09-07 23:48 CEST) failed at `nix run .#lint`: `go: unknown GOEXPERIMENT jsonv2`. Root cause: the `lint` and `vulncheck` flake apps did not bundle a Go toolchain, so `golangci-lint`/`govulncheck` shelled out to the CI runner's system Go, which predates jsonv2. Fix: both apps now include `goPkg` (`flake.nix:109-113,120-123`). Locally verified: lint 0 issues post-fix.
 4. **Answered the three-sessions-old consumer-compat question with evidence.** `samber-do-auditlog` (BuildFlow vendor, `loader.go:81`) wraps `Detect` errors generically; `go-workflow-auditlog` uses only `Read` + sentinels + `MaxLineBytes` (all unchanged); BuildFlow builds against the local checkout via `replace` but imports nothing directly. Conclusion: the breaking `Detect` change is behavioral, not compile-time. v0.0.2 cut remains open (TODO #2).
@@ -73,75 +73,75 @@ Impact: Critical / High / Med / Low. Effort: S (<30min) / M (30min-2h) / L (>2h)
 
 **Ship & infrastructure**
 
-| #  | Task                                                                                     | Impact | Effort | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | ----------- |
-| 1  | Push and verify first green CI run; confirm badge renders (T#1)                          | High   | S      | TODO_LIST   |
-| 2  | Cut v0.0.2; verify pkg.go.dev propagation (T#2, unblocked by consumer-compat evidence)   | High   | M      | TODO_LIST   |
-| 3  | `go build` BuildFlow + go-cqrs-lite cmd tools against the new code before tagging \*     | High   | S      | This report |
-| 4  | Add govulncheck job to CI (T#11)                                                         | Med    | S      | TODO_LIST   |
-| 5  | Add `actionlint` flake app + CI step (T#18)                                              | Low    | S      | TODO_LIST   |
-| 6  | Pin golangci-lint linter set in `.golangci.yml` (T#19)                                   | Low    | S      | TODO_LIST   |
-| 7  | Dependabot/Renovate for `flake.lock` (T#20)                                              | Low    | S      | TODO_LIST   |
-| 8  | CI platform matrix or document linux-only (T#13, blocked)                                | Low    | S      | TODO_LIST   |
-| 9  | GitHub issue templates (T#21)                                                            | Low    | S      | TODO_LIST   |
+| # | Task                                                                                   | Impact | Effort | Home        |
+| - | -------------------------------------------------------------------------------------- | ------ | ------ | ----------- |
+| 1 | Push and verify first green CI run; confirm badge renders (T#1)                        | High   | S      | TODO_LIST   |
+| 2 | Cut v0.0.2; verify pkg.go.dev propagation (T#2, unblocked by consumer-compat evidence) | High   | M      | TODO_LIST   |
+| 3 | `go build` BuildFlow + go-cqrs-lite cmd tools against the new code before tagging \*   | High   | S      | This report |
+| 4 | Add govulncheck job to CI (T#11)                                                       | Med    | S      | TODO_LIST   |
+| 5 | Add `actionlint` flake app + CI step (T#18)                                            | Low    | S      | TODO_LIST   |
+| 6 | Pin golangci-lint linter set in `.golangci.yml` (T#19)                                 | Low    | S      | TODO_LIST   |
+| 7 | Dependabot/Renovate for `flake.lock` (T#20)                                            | Low    | S      | TODO_LIST   |
+| 8 | CI platform matrix or document linux-only (T#13, blocked)                              | Low    | S      | TODO_LIST   |
+| 9 | GitHub issue templates (T#21)                                                          | Low    | S      | TODO_LIST   |
 
 **Correctness & API contract**
 
-| #  | Task                                                                                     | Impact | Effort | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | ----------- |
-| 10 | Shrink scanner initial buffer 1 MB → 64 KB; benchstat verify (T#3)                       | High   | S      | TODO_LIST   |
-| 11 | Rune-safe `preview()` truncation (T#4)                                                   | Med    | S      | TODO_LIST   |
-| 12 | Wrap validate-callback errors with line number (T#6)                                     | Med    | S      | TODO_LIST   |
-| 13 | Fix `reader.go:24-26` "single JSON-encoded object" wording (T#7)                         | Med    | S      | TODO_LIST   |
-| 14 | Decide duplicate-key first-line policy (T#14)                                            | Low    | S      | TODO_LIST   |
-| 15 | Sentinel-based scan-error parity, both packages (T#15)                                   | Low    | M      | TODO_LIST   |
-| 16 | Reconsider `FormatAuto` success-path API (T#16)                                          | Low    | S      | TODO_LIST   |
-| 17 | Document/decide loader scope: audit-log-specific vs generic \*                           | Med    | S      | This report |
+| #  | Task                                                               | Impact | Effort | Home        |
+| -- | ------------------------------------------------------------------ | ------ | ------ | ----------- |
+| 10 | Shrink scanner initial buffer 1 MB → 64 KB; benchstat verify (T#3) | High   | S      | TODO_LIST   |
+| 11 | Rune-safe `preview()` truncation (T#4)                             | Med    | S      | TODO_LIST   |
+| 12 | Wrap validate-callback errors with line number (T#6)               | Med    | S      | TODO_LIST   |
+| 13 | Fix `reader.go:24-26` "single JSON-encoded object" wording (T#7)   | Med    | S      | TODO_LIST   |
+| 14 | Decide duplicate-key first-line policy (T#14)                      | Low    | S      | TODO_LIST   |
+| 15 | Sentinel-based scan-error parity, both packages (T#15)             | Low    | M      | TODO_LIST   |
+| 16 | Reconsider `FormatAuto` success-path API (T#16)                    | Low    | S      | TODO_LIST   |
+| 17 | Document/decide loader scope: audit-log-specific vs generic \*     | Med    | S      | This report |
 
 **Testing**
 
-| #  | Task                                                                                     | Impact | Effort | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | ----------- |
-| 18 | Add `FuzzDetect` seeded with the new edge cases (T#5)                                    | Med    | S      | TODO_LIST   |
-| 19 | CRLF + blank-line + no-trailing-newline matrix tests (T#17)                              | Low    | S      | TODO_LIST   |
-| 20 | `-cpu` benchmark sweep + benchstat CI regression check (T#27)                            | Low    | M      | TODO_LIST   |
-| 21 | Regression-test consumer-visible Detect error text/behavior in samber-do-auditlog \*     | Med    | S      | This report |
+| #  | Task                                                                                 | Impact | Effort | Home        |
+| -- | ------------------------------------------------------------------------------------ | ------ | ------ | ----------- |
+| 18 | Add `FuzzDetect` seeded with the new edge cases (T#5)                                | Med    | S      | TODO_LIST   |
+| 19 | CRLF + blank-line + no-trailing-newline matrix tests (T#17)                          | Low    | S      | TODO_LIST   |
+| 20 | `-cpu` benchmark sweep + benchstat CI regression check (T#27)                        | Low    | M      | TODO_LIST   |
+| 21 | Regression-test consumer-visible Detect error text/behavior in samber-do-auditlog \* | Med    | S      | This report |
 
 **Docs & process**
 
-| #  | Task                                                                                     | Impact | Effort | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | ----------- |
-| 22 | `example_test.go` godoc examples (T#8)                                                   | Med    | S      | TODO_LIST   |
-| 23 | Systematize README-example compilation as flake app or CI step (T#9)                     | Med    | S      | TODO_LIST   |
-| 24 | Record benchmark baselines + benchstat discipline (T#10)                                 | Med    | S      | TODO_LIST   |
-| 25 | `dprint.json`: integrate into flake or delete (T#12, blocked)                            | Med    | S      | TODO_LIST   |
-| 26 | `docs/DOMAIN_LANGUAGE.md` (T#22)                                                         | Low    | S      | TODO_LIST   |
-| 27 | CONTRIBUTING.md release-process section (T#23)                                           | Low    | S      | TODO_LIST   |
-| 28 | README error-handling philosophy + 1 MB cap in quick-start prose (T#24)                  | Low    | S      | TODO_LIST   |
-| 29 | CHANGELOG compare-links footer + Breaking-convention decision (T#25)                     | Low    | S      | TODO_LIST   |
-| 30 | AGENTS.md gopls-gotcha revisit after Go 1.27 ships (T#26, time-gated)                    | Low    | S      | TODO_LIST   |
-| 31 | Extend docs-health annotate assets with an `open`/`tracked` verdict kind \*              | Med    | S      | This report |
-| 32 | Stable-key harvest pointers (slug or title) instead of TODO row numbers \*               | Low    | S      | This report |
-| 33 | Make consumer-build part of the breaking-change checklist (skill or AGENTS note) \*      | Med    | S      | This report |
-| 34 | Gate rule: re-run coverage/race before citing coverage numbers in docs \*                | Low    | S      | This report |
-| 35 | `date` first in any status-report session (skill note) \*                                | Low    | S      | This report |
+| #  | Task                                                                                | Impact | Effort | Home        |
+| -- | ----------------------------------------------------------------------------------- | ------ | ------ | ----------- |
+| 22 | `example_test.go` godoc examples (T#8)                                              | Med    | S      | TODO_LIST   |
+| 23 | Systematize README-example compilation as flake app or CI step (T#9)                | Med    | S      | TODO_LIST   |
+| 24 | Record benchmark baselines + benchstat discipline (T#10)                            | Med    | S      | TODO_LIST   |
+| 25 | `dprint.json`: integrate into flake or delete (T#12, blocked)                       | Med    | S      | TODO_LIST   |
+| 26 | `docs/DOMAIN_LANGUAGE.md` (T#22)                                                    | Low    | S      | TODO_LIST   |
+| 27 | CONTRIBUTING.md release-process section (T#23)                                      | Low    | S      | TODO_LIST   |
+| 28 | README error-handling philosophy + 1 MB cap in quick-start prose (T#24)             | Low    | S      | TODO_LIST   |
+| 29 | CHANGELOG compare-links footer + Breaking-convention decision (T#25)                | Low    | S      | TODO_LIST   |
+| 30 | AGENTS.md gopls-gotcha revisit after Go 1.27 ships (T#26, time-gated)               | Low    | S      | TODO_LIST   |
+| 31 | Extend docs-health annotate assets with an `open`/`tracked` verdict kind \*         | Med    | S      | This report |
+| 32 | Stable-key harvest pointers (slug or title) instead of TODO row numbers \*          | Low    | S      | This report |
+| 33 | Make consumer-build part of the breaking-change checklist (skill or AGENTS note) \* | Med    | S      | This report |
+| 34 | Gate rule: re-run coverage/race before citing coverage numbers in docs \*           | Low    | S      | This report |
+| 35 | `date` first in any status-report session (skill note) \*                           | Low    | S      | This report |
 
 **Design ideas (ROADMAP fuel — unrefined by design)**
 
-| #  | Task                                                                                     | Impact | Effort | Home        |
-| -- | ---------------------------------------------------------------------------------------- | ------ | ------ | ----------- |
-| 36 | Streaming read via `iter.Seq2[T, error]`                                                 | High   | L      | ROADMAP     |
-| 37 | `Write[T]` NDJSON writer counterpart                                                     | Med    | M      | ROADMAP     |
-| 38 | `Detect` from `io.Reader` without full buffering                                         | Med    | M      | ROADMAP     |
-| 39 | Configurable/pluggable detection probe keys                                              | Med    | L      | ROADMAP     |
-| 40 | `ReadContext` for cancellation mid-stream                                                | Low    | M      | ROADMAP     |
-| 41 | Combined Detect+Read convenience entry point                                             | Low    | M      | ROADMAP     |
-| 42 | Configurable `MaxLineBytes` per call                                                     | Low    | S      | ROADMAP     |
-| 43 | Sampling more than first non-blank line                                                  | Low    | M      | ROADMAP     |
-| 44 | Roundtrip property test: `Detect(Write(x)) == NDJSON`                                    | Low    | S      | ROADMAP     |
-| 45 | Token-based `jsontext` probe (theme 4, profile-gated)                                    | Low    | S      | ROADMAP     |
-| 46 | Pre-size result slice heuristically in `Read` (theme 4)                                  | Low    | S      | ROADMAP     |
-| 47 | Track jsonv2 API evolution as Go 1.27 nears (theme 3 watch item)                         | Low    | S      | ROADMAP     |
+| #  | Task                                                             | Impact | Effort | Home    |
+| -- | ---------------------------------------------------------------- | ------ | ------ | ------- |
+| 36 | Streaming read via `iter.Seq2[T, error]`                         | High   | L      | ROADMAP |
+| 37 | `Write[T]` NDJSON writer counterpart                             | Med    | M      | ROADMAP |
+| 38 | `Detect` from `io.Reader` without full buffering                 | Med    | M      | ROADMAP |
+| 39 | Configurable/pluggable detection probe keys                      | Med    | L      | ROADMAP |
+| 40 | `ReadContext` for cancellation mid-stream                        | Low    | M      | ROADMAP |
+| 41 | Combined Detect+Read convenience entry point                     | Low    | M      | ROADMAP |
+| 42 | Configurable `MaxLineBytes` per call                             | Low    | S      | ROADMAP |
+| 43 | Sampling more than first non-blank line                          | Low    | M      | ROADMAP |
+| 44 | Roundtrip property test: `Detect(Write(x)) == NDJSON`            | Low    | S      | ROADMAP |
+| 45 | Token-based `jsontext` probe (theme 4, profile-gated)            | Low    | S      | ROADMAP |
+| 46 | Pre-size result slice heuristically in `Read` (theme 4)          | Low    | S      | ROADMAP |
+| 47 | Track jsonv2 API evolution as Go 1.27 nears (theme 3 watch item) | Low    | S      | ROADMAP |
 
 **Deliberately not listed** (unchanged rejections): JSON Schema integration, CLI tooling, third-party dependencies, test-framework additions.
 
